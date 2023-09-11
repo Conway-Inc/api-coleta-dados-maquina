@@ -21,7 +21,6 @@ class Insert(object):
         resultado = []
         bancoexec.execute(f"SELECT idFuncionario, idTotem, fkEmpresa, fkAeroporto FROM Funcionario JOIN Empresa ON fkEmpresa = idEmpresa JOIN Totem ON fkEmpresa = idEmpresa WHERE emailFunc = '{self.email}' AND senhaFunc = '{self.senha}'")
         for linha in bancoexec:
-          print(linha)
           self.idUsuario = linha[0]
           self.idTotem = linha[1]
           self.idEmpresa = linha[2]

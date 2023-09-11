@@ -1,26 +1,26 @@
-import tkinter as tki
 from time import sleep as s
 from tkinter import *
 from banco import conectar
 from inserir import Insert
 from tkinter import messagebox
 import psutil
-import matplotlib.pyplot as plt
 import smtplib
 from email.message import EmailMessage
 import requests
 import json
 
 
-slack_token = 'xoxb-5783422187908-5820721618452-51UxilwfylULRqZ1tNKNnhPD'
-slack_channel = '#notificacoes'
+slack_token = 'xoxb-5783422187908-5820721618452-9XjNfgui3pjqvLp9UeuDuNXm'
+slack_channel = '#teste'
+# slack_channel = '#notificações'
+
 
 me = 'conway.sptech@gmail.com'
 you = 'help@conway-inc.on.spiceworks.com'
 
 msg = EmailMessage()
 
-msg['Subject'] = f'Chamado teste'
+msg['Subject'] = f'Chamado automático'
 msg['From'] = me
 msg['To'] = you
 
@@ -50,57 +50,57 @@ class tela:
          self.fonte = ("Verdana", "16")
          self.container1 = Frame(master)
          self.container1["pady"] = 10
-         self.container1.pack()
+         self.container1.grid(column=1, row=1)
 
          self.container2 = Frame(master)
          self.container2["padx"] = 20
          self.container2["pady"] = 5
-         self.container2.pack()
+         self.container2.grid(column=1, row=2)
 
          self.container3 = Frame(master)
          self.container3["padx"] = 20
          self.container3["pady"] = 5
-         self.container3.pack()
+         self.container3.grid(column=1, row=3)
 
          self.container4 = Frame(master)
          self.container4["padx"] = 20
          self.container4["pady"] = 5
-         self.container4.pack()
+         self.container4.grid(column=1, row=4)
 
          self.container5 = Frame(master)
          self.container5["padx"] = 20
          self.container5["pady"] = 5
-         self.container5.pack()
+         self.container5.grid(column=1, row=5)
 
          self.container6 = Frame(master)
          self.container6["padx"] = 60
          self.container6["pady"] = 10
-         self.container6.pack()
+         self.container6.grid(column=1, row=6)
 
 
          self.lblemail= Label(self.container1, text="E-mail:", font=self.fonte, width=10)
-         self.lblemail.pack(side=LEFT)
+         self.lblemail.grid()
 
          self.inputEmail = Entry(self.container2)
          self.inputEmail["width"] = 25
          self.inputEmail["font"] = self.fonte
-         self.inputEmail.pack(side=LEFT)
+         self.inputEmail.grid()
 
          self.lblsenha= Label(self.container3, text="Senha:", font=self.fonte, width=10)
-         self.lblsenha.pack(side=LEFT)
+         self.lblsenha.grid()
 
          self.inputSenha = Entry(self.container4)
          self.inputSenha["width"] = 25
          self.inputSenha["show"] = "*"
          self.inputSenha["font"] = self.fonte
-         self.inputSenha.pack(side=LEFT)
+         self.inputSenha.grid()
          
          self.btnEntrar = Button(self.container5, text="Entrar", font=self.fonte, width=10)
          self.btnEntrar["command"] = self.consultarUser
-         self.btnEntrar.pack (side=LEFT)
+         self.btnEntrar.grid ()
 
          self.lblmsg = Label(self.container6, text="", font=self.fonte, width=10)
-         self.lblmsg.pack()
+         self.lblmsg.grid()
 
         
          
@@ -131,9 +131,9 @@ class tela:
         self.lblmsg["width"] = 100
         self.btnEntrar["width"] = 1
         self.btnEntrar["height"] = 1
-        self.inputEmail.pack_forget()
-        self.inputSenha.pack_forget()
-        self.btnEntrar.pack_forget()
+        self.inputEmail.grid_forget()
+        self.inputSenha.grid_forget()
+        self.btnEntrar.grid_forget()
         while True:
             porcentagem_cpu = psutil.cpu_percent()
             memoria = psutil.virtual_memory()
@@ -141,28 +141,28 @@ class tela:
             frequencia_cpu = psutil.cpu_freq().current / 1000
 
             # if(porcentagem_cpu >=50.0 and porcentagem_cpu < 75.0):
-            #     postar_mensagem('CPU com 50% de uso!!!')
-            #     msg['Subject'] = f'Chamado teste'
-            #     msg.set_content('CPU com 50% de uso!!!')
-            #     # msg['Subject'] = f'CPU com 50% de uso!!!'
-
+            #     postar_mensagem('CPU com 50% de uso')
+            #     # msg['Subject'] = f'CPU com 50% de uso'   
+            #     msg.set_content('Chamado aberto automáticamente')
             #     send.send_message(msg)
+            
             # elif(porcentagem_cpu >= 75.0 and porcentagem_cpu < 90.0):
-            #     postar_mensagem('CPU com 75% de uso!!!!!!!!!!!!!!')
-            #     msg['Subject'] = f'Chamado teste'
-            #     msg.set_content('CPU com 75% de uso!!!!!!!!!!!!!!')
+            #     postar_mensagem('CPU com 75% de uso')
+            #     # msg['Subject'] = f'CPU com 75% de uso'
+            #     msg.set_content('Chamado aberto automáticamente')
             #     send.send_message(msg)
+            
             # elif(porcentagem_cpu >= 90.):
-            #     postar_mensagem('CPU com 90% de uso!!!!!!!!!!!!!')
-            #     msg['Subject'] = f'Chamado teste'
-            #     msg.set_content('CPU com 90% de uso!!!!!!!!!!!!!')
+            #     postar_mensagem('CPU com 90% de uso')
+            #     # msg['Subject'] = f'CPU com 90% de uso'
+            #     msg.set_content('Chamado aberto automáticamente')
             #     send.send_message(msg)
 
 
             # if(porcentagem_memoria >= 40.0):
-            #     postar_mensagem('40% de memória ram em uso!!!!!')
-            #     msg['Subject'] = f'Chamado teste'
-            #     msg.set_content('40% de memória ram em uso!!!!!')
+            #     postar_mensagem('40% de memória ram em uso')
+            #     # msg['Subject'] = f'40% de memória ram em uso'
+            #     msg.set_content('Chamado aberto automáticamente')
             #     send.send_message(msg)
 
             self.lblemail["text"] = (f"Porcentagem de cpu é {porcentagem_cpu:.2f}%")
@@ -184,7 +184,7 @@ class tela:
             root.update()
             s(5)
         
-root = tki.Tk()
+root = Tk()
 tela(root)
 root.mainloop()
 send.quit()
