@@ -33,9 +33,9 @@ class Insert(object):
         res = bancovar.commit()
 
         if len(resultado) > 0:
-            return "Dados existem"
+            return "OK"
         else:
-            return "ERRO: Não encontrado"
+            return "ERRO"
 
     def inserirMetricas(self):
         
@@ -46,9 +46,9 @@ class Insert(object):
         addFreq = "INSERT INTO Dados (valor, fkComponente, fkTotem, dataHoraDados) VALUES (%s, %s, %s, now())"
         dataFreq = (float(self.freq), 1, self.idTotem)
         addPerc = "INSERT INTO Dados (valor, fkComponente, fkTotem, dataHoraDados) VALUES (%s, %s, %s, now())"
-        dataPerc = (float(self.percCPU), 1, self.idTotem)
+        dataPerc = (float(self.percCPU), 2, self.idTotem)
         addMemory = "INSERT INTO Dados (valor, fkComponente, fkTotem, dataHoraDados) VALUES (%s, %s, %s, now())"
-        dataMemory = (self.memoria, 1, self.idTotem)
+        dataMemory = (self.memoria, 3, self.idTotem)
 
  
         execucao.execute(addFreq, dataFreq)

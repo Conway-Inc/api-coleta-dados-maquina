@@ -6,105 +6,172 @@ from inserir import Insert
 from tkinter import messagebox
 import psutil
 import matplotlib.pyplot as plt
+import smtplib
+from email.message import EmailMessage
+import requests
+import json
+
+
+slack_token = 'xoxb-5783422187908-5820721618452-51UxilwfylULRqZ1tNKNnhPD'
+slack_channel = '#notificacoes'
+
+me = 'conway.sptech@gmail.com'
+you = 'help@conway-inc.on.spiceworks.com'
+
+msg = EmailMessage()
+
+msg['Subject'] = f'Chamado teste'
+msg['From'] = me
+msg['To'] = you
+
+smtp_server = 'smtp.gmail.com'
+smtp_port = 587  # Porta TLS/STARTTLS do Gmail
+username = 'conway.sptech@gmail.com'
+password = 'mipjexlgaukookth'
+
+
+send = smtplib.SMTP(smtp_server, smtp_port)
+send.starttls()  # Inicia a conexão TLS
+send.login(username, password)
+
+def postar_mensagem(text, blocks = None):
+    return requests.post('https://slack.com/api/chat.postMessage', {
+        'token': slack_token,
+        'channel': slack_channel,
+        'text': text,
+        'blocks': json.dumps(blocks) if blocks else None
+    }).json()
 
 
 class tela:
     def __init__(self, master=None):
+         
          self.globalBanc = None
-         self.fonte = ("Verdana", "8")
+         self.fonte = ("Verdana", "16")
          self.container1 = Frame(master)
          self.container1["pady"] = 10
          self.container1.pack()
+
          self.container2 = Frame(master)
          self.container2["padx"] = 20
          self.container2["pady"] = 5
          self.container2.pack()
+
          self.container3 = Frame(master)
          self.container3["padx"] = 20
          self.container3["pady"] = 5
          self.container3.pack()
+
          self.container4 = Frame(master)
          self.container4["padx"] = 20
          self.container4["pady"] = 5
          self.container4.pack()
+
          self.container5 = Frame(master)
          self.container5["padx"] = 20
          self.container5["pady"] = 5
          self.container5.pack()
+
          self.container6 = Frame(master)
          self.container6["padx"] = 60
          self.container6["pady"] = 10
          self.container6.pack()
 
 
-         self.lblemail= Label(self.container1, text="E-mail:",
-            font=self.fonte, width=10)
+         self.lblemail= Label(self.container1, text="E-mail:", font=self.fonte, width=10)
          self.lblemail.pack(side=LEFT)
 
-         self.txtemail = Entry(self.container2)
-         self.txtemail["width"] = 25
-         self.txtemail["font"] = self.fonte
-         self.txtemail.pack(side=LEFT)
+         self.inputEmail = Entry(self.container2)
+         self.inputEmail["width"] = 25
+         self.inputEmail["font"] = self.fonte
+         self.inputEmail.pack(side=LEFT)
 
-         self.lblsenha= Label(self.container3, text="Senha:",
-         font=self.fonte, width=10)
+         self.lblsenha= Label(self.container3, text="Senha:", font=self.fonte, width=10)
          self.lblsenha.pack(side=LEFT)
 
-         self.txtsenha = Entry(self.container4)
-         self.txtsenha["width"] = 25
-         self.txtsenha["show"] = "*"
-         self.txtsenha["font"] = self.fonte
-         self.txtsenha.pack(side=LEFT)
-
-         self.lblmsg = Label(self.container6, text="")
-         self.lblmsg["font"] = ("Verdana", "9", "italic")
-         self.lblmsg.pack()
+         self.inputSenha = Entry(self.container4)
+         self.inputSenha["width"] = 25
+         self.inputSenha["show"] = "*"
+         self.inputSenha["font"] = self.fonte
+         self.inputSenha.pack(side=LEFT)
          
-         self.bntInsert = Button(self.container5, text="Consultar",
-         font=self.fonte, width=12)
-         self.bntInsert["command"] = self.consultarUser
-         self.bntInsert.pack (side=LEFT)
+         self.btnEntrar = Button(self.container5, text="Entrar", font=self.fonte, width=10)
+         self.btnEntrar["command"] = self.consultarUser
+         self.btnEntrar.pack (side=LEFT)
+
+         self.lblmsg = Label(self.container6, text="", font=self.fonte, width=10)
+         self.lblmsg.pack()
+
+        
+         
 
 
     def consultarUser(self):
 
         self.globalBanc = Insert()
         
-        messagebox.showinfo("Title", "Message")
 
-        self.globalBanc.email = self.txtemail.get()
-        self.globalBanc.senha = self.txtsenha.get()
+        self.globalBanc.email = self.inputEmail.get()
+        self.globalBanc.senha = self.inputSenha.get()
         
         resposta = self.globalBanc.consultar()
 
         self.lblmsg["text"] = resposta
         s(3)
-        if resposta == "Dados existem":
+        if resposta == "OK":
+            messagebox.showinfo("Sucesso", "Foi")
             self.trocar()
 
-        self.txtemail.delete(0, END)
-        self.txtsenha.delete(0, END)
+        self.inputEmail.delete(0, END)
+        self.inputSenha.delete(0, END)
         
     def trocar(self):
         self.lblemail["width"] = 100
         self.lblsenha["width"] = 100
-        self.lblmsg["width"] = 140
-        self.txtemail.pack_forget()
-        self.txtsenha.pack_forget()
-        self.bntInsert.pack_forget()
+        self.lblmsg["width"] = 100
+        self.btnEntrar["width"] = 1
+        self.btnEntrar["height"] = 1
+        self.inputEmail.pack_forget()
+        self.inputSenha.pack_forget()
+        self.btnEntrar.pack_forget()
         while True:
             porcentagem_cpu = psutil.cpu_percent()
             memoria = psutil.virtual_memory()
             porcentagem_memoria = memoria.percent
-            frequencia_cpu = psutil.cpu_freq().current
+            frequencia_cpu = psutil.cpu_freq().current / 1000
 
-            self.lblemail["text"] = (f"Porcentagem de cpu é {porcentagem_cpu}%")
-            self.lblsenha["text"] = (f"Frequencia de cpu é {frequencia_cpu}")
-            self.lblmsg["text"] = (f"Porcentagem de memoria é {porcentagem_memoria}%")
+            # if(porcentagem_cpu >=50.0 and porcentagem_cpu < 75.0):
+            #     postar_mensagem('CPU com 50% de uso!!!')
+            #     msg['Subject'] = f'Chamado teste'
+            #     msg.set_content('CPU com 50% de uso!!!')
+            #     # msg['Subject'] = f'CPU com 50% de uso!!!'
 
-            print(f"A porcentagem de memoria é {porcentagem_memoria}")
-            print(f"A porcentagem de cpu é {porcentagem_cpu}")
-            print(f"A frequencia da sua cpu é {frequencia_cpu}")
+            #     send.send_message(msg)
+            # elif(porcentagem_cpu >= 75.0 and porcentagem_cpu < 90.0):
+            #     postar_mensagem('CPU com 75% de uso!!!!!!!!!!!!!!')
+            #     msg['Subject'] = f'Chamado teste'
+            #     msg.set_content('CPU com 75% de uso!!!!!!!!!!!!!!')
+            #     send.send_message(msg)
+            # elif(porcentagem_cpu >= 90.):
+            #     postar_mensagem('CPU com 90% de uso!!!!!!!!!!!!!')
+            #     msg['Subject'] = f'Chamado teste'
+            #     msg.set_content('CPU com 90% de uso!!!!!!!!!!!!!')
+            #     send.send_message(msg)
+
+
+            # if(porcentagem_memoria >= 40.0):
+            #     postar_mensagem('40% de memória ram em uso!!!!!')
+            #     msg['Subject'] = f'Chamado teste'
+            #     msg.set_content('40% de memória ram em uso!!!!!')
+            #     send.send_message(msg)
+
+            self.lblemail["text"] = (f"Porcentagem de cpu é {porcentagem_cpu:.2f}%")
+            self.lblsenha["text"] = (f"Frequencia de cpu é {frequencia_cpu:.2f}GHz")
+            self.lblmsg["text"] = (f"Porcentagem de memoria é {porcentagem_memoria:.2f}%")
+
+            print(f"A porcentagem de memoria é {porcentagem_memoria:.2f}%")
+            print(f"A porcentagem de cpu é {porcentagem_cpu:.2f}%")
+            print(f"A frequencia da sua cpu é {frequencia_cpu:.2f}GHz")
             print("========================================")
 
 
@@ -114,11 +181,10 @@ class tela:
 
             self.globalBanc.inserirMetricas()
 
-           
-
             root.update()
             s(5)
         
 root = tki.Tk()
 tela(root)
 root.mainloop()
+send.quit()

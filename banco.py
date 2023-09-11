@@ -3,17 +3,17 @@ import mysql.connector as ms
 class conectar:
     def __init__(self):
         self.host = "localhost"
-        self.bd = "bd_conway"
-        self.password = "220807"
-        self.user = "root"
+        self.bd = "Airway"
+        self.password = "Urubu@100"
+        self.user = "urubu100"
         self.iniciar()
     
     def iniciar(self):
         conexao = ms.connect(
             host="localhost",
-            user="aluno",
-            password="sptech",
+            user="urubu100",
+            password="Urubu@100",
             database="Airway",
             port=3306
         )
-        return conexao  
+        return conexao
