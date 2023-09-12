@@ -70,12 +70,12 @@ class tela:
          self.container5 = Frame(master)
          self.container5["padx"] = 20
          self.container5["pady"] = 5
-         self.container5.grid(column=1, row=5)
+         self.container5.grid(column=1, row=6)
 
          self.container6 = Frame(master)
          self.container6["padx"] = 60
          self.container6["pady"] = 10
-         self.container6.grid(column=1, row=6)
+         self.container6.grid(column=1, row=5)
 
 
          self.lblemail= Label(self.container1, text="E-mail:", font=self.fonte, width=10)
@@ -119,16 +119,15 @@ class tela:
         self.lblmsg["text"] = resposta
         s(3)
         if resposta == "OK":
-            messagebox.showinfo("Sucesso", "Foi")
             self.trocar()
 
         self.inputEmail.delete(0, END)
         self.inputSenha.delete(0, END)
         
     def trocar(self):
-        self.lblemail["width"] = 100
-        self.lblsenha["width"] = 100
-        self.lblmsg["width"] = 100
+        self.lblemail["width"] = 50
+        self.lblsenha["width"] = 50
+        self.lblmsg["width"] = 50
         self.btnEntrar["width"] = 1
         self.btnEntrar["height"] = 1
         self.inputEmail.grid_forget()
@@ -140,30 +139,31 @@ class tela:
             porcentagem_memoria = memoria.percent
             frequencia_cpu = psutil.cpu_freq().current / 1000
 
-            # if(porcentagem_cpu >=50.0 and porcentagem_cpu < 75.0):
-            #     postar_mensagem('CPU com 50% de uso')
-            #     # msg['Subject'] = f'CPU com 50% de uso'   
-            #     msg.set_content('Chamado aberto automáticamente')
-            #     send.send_message(msg)
+            if(porcentagem_cpu >=50.0 and porcentagem_cpu < 75.0):
+                postar_mensagem('CPU com 50% de uso')
+                msg.set_content('CPU com 50% de uso')
+                send.send_message(msg)
             
-            # elif(porcentagem_cpu >= 75.0 and porcentagem_cpu < 90.0):
-            #     postar_mensagem('CPU com 75% de uso')
-            #     # msg['Subject'] = f'CPU com 75% de uso'
-            #     msg.set_content('Chamado aberto automáticamente')
-            #     send.send_message(msg)
+            elif(porcentagem_cpu >= 75.0 and porcentagem_cpu < 90.0):
+                postar_mensagem('CPU com 75% de uso')
+                msg.set_content('CPU com 75% de uso')
+                send.send_message(msg)
             
-            # elif(porcentagem_cpu >= 90.):
-            #     postar_mensagem('CPU com 90% de uso')
-            #     # msg['Subject'] = f'CPU com 90% de uso'
-            #     msg.set_content('Chamado aberto automáticamente')
-            #     send.send_message(msg)
+            elif(porcentagem_cpu >= 90.):
+                postar_mensagem('CPU com 90% de uso')
+                msg.set_content('CPU com 90% de uso')
+                send.send_message(msg)
 
 
-            # if(porcentagem_memoria >= 40.0):
-            #     postar_mensagem('40% de memória ram em uso')
-            #     # msg['Subject'] = f'40% de memória ram em uso'
-            #     msg.set_content('Chamado aberto automáticamente')
-            #     send.send_message(msg)
+            if(porcentagem_memoria >= 50.0):
+                postar_mensagem('50% de memória ram em uso')
+                msg.set_content('50% de memória ram em uso')
+                send.send_message(msg)
+                
+            elif(porcentagem_memoria >= 60.0):
+                postar_mensagem('40% de memória ram em uso')
+                msg.set_content('40% de memória ram em uso')
+                send.send_message(msg)
 
             self.lblemail["text"] = (f"Porcentagem de cpu é {porcentagem_cpu:.2f}%")
             self.lblsenha["text"] = (f"Frequencia de cpu é {frequencia_cpu:.2f}GHz")
