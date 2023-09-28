@@ -3,7 +3,7 @@ import mysql.connector as ms
 class conectar:
     def __init__(self):
         self.host = "localhost"
-        self.bd = "Airway"
+        self.bd = "ConWay"
         self.password = "Urubu@100"
         self.user = "urubu100"
         self.iniciar()
@@ -13,7 +13,7 @@ class conectar:
             host="localhost",
             user="urubu100",
             password="Urubu@100",
-            database="Airway",
+            database="ConWay",
             port=3306
         )
         return conexao
