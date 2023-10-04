@@ -8,7 +8,7 @@ public class ConexaoMysql {
 
     public ConexaoMysql(){
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/ConWay");
 
         /*MUDAR PARA O SEU USUÁRIO MYSQL PARA TESTES*/
