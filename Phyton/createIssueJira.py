@@ -2,42 +2,28 @@ import requests
 from requests.auth import HTTPBasicAuth
 import json
 from datetime import datetime
-import psutil
 
-repetir = True
-while repetir:
-  data = datetime.now()
-  data = data.strftime('%Y/%m/%d %H:%M:%S')
-  ram_percent = psutil.virtual_memory().percent
-  user = [user[0] for user in psutil.users()]
-  user = user[0]
-
-  if (ram_percent >= 80):
-    repetir = False
-    mensagem = {"text": f"""
-                🚨ALERTA🚨
+mensagem = {"text": f"""
+               🚨ALERTA🚨
 
                 Protocolo  => 837021
-                Data          => {data}
-                User          => {user}
-                Descrição  => {"Sua memória RAM ultrapassou:"} {ram_percent}%  
+                  
                 """}
-    chatItau = "https://hooks.slack.com/services/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"
+chatLatam = "https://hooks.slack.com/services/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"
 
-    postMsg = requests.post(chatItau, data=json.dumps(mensagem))
+postMsg = requests.post(chatLatam, data=json.dumps(mensagem))
 
 
+url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-    url = "https://conway-airway.atlassian.net/rest/api/3/issue"
+auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF08ASG2iR-9PT2tOjNZBdLpMc9Dj7gwEdxTRLkB1ZDQ7g2eu4bHHa70DAxlJMMxWXfmofgjZOi0ulwIfDxI2AkMvWurRDVCmuDSVahZtzXk7yCks3VxIokvigYPfhcvX-3TR66LVEJFZOfKKNQdFbquno5Ug3HAFf6g7XzXtBurzs=FD4378DB")
 
-    auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF047qQDbi2GlvIp8w8QrnhfnpUxSgS4GXkW3Y3eKYSN80T-maYdduxCywgW-xlfmS8kkzqbYKUp57whv7mDOLqQZzmhZDT9noqvGlXlcL6gOl1AnXTP81y9q8Iw7bdgJ0VJb7gIb953PuM9Sft-JVqOCWmBCeBLMzA-2zuEhLq-FM=A302DFA1")
-
-    headers = {
+headers = {
       "Accept": "application/json",
       "Content-Type": "application/json"
-    }
+}
 
-    payload = json.dumps({
+payload = json.dumps({
         "fields":{
             "summary": "837021 - ALERTA DO SLACK",
             "project":{"key":"AWLATAM"},
@@ -53,7 +39,7 @@ while repetir:
           }
     })
 
-    response = requests.request(
+response = requests.request(
       "POST",
       url,
       data=payload,
@@ -61,4 +47,4 @@ while repetir:
       auth=auth
     )
 
-    print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
