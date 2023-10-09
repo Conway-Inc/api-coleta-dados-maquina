@@ -21,61 +21,75 @@ public class Main {
         Looca looca = new Looca();
 
         Sistema sistema = looca.getSistema();
+        Processador processador = looca.getProcessador();
+        Memoria memoria = looca.getMemoria();
         System.out.printf("""
                 ------------------------
                 Sistema operacional: %s
                 ------------------------
-                ------------------------
                 Tempo de atividade: %s Dias
                 ------------------------
-                """, sistema.getSistemaOperacional(), (sistema.getTempoDeAtividade()/86400));
-        Processador processador = looca.getProcessador();
-        System.out.printf("""
-                        ------------------------
-                        Processador: %s|
-                        ------------------------
-                        Frequência| Núcleos|Threads
-                        %s|     %d  |   %d
-                        ------------------------
-                        """,processador.getNome(),processador.getFrequencia(),processador.getNumeroCpusFisicas(), processador.getNumeroCpusLogicas());
-
-        Memoria memoria = looca.getMemoria();
-        System.out.printf("""
-                Memoria
+                Processador: %s
+                Frequência| Núcleos|Threads
+                %s|     %d  |   %d
                 ------------------------
+                Memoria
                 Total|  Em uso  | Disponível
                 %.2sGB |  %.4sGB  |    %.3sGB
-                ------------------------
-                """, memoria.getTotal()/Math.pow(10,9),
+                """, sistema.getSistemaOperacional(),
+                (sistema.getTempoDeAtividade()/86400),
+                processador.getNome(),
+                processador.getFrequencia(),
+                processador.getNumeroCpusFisicas(),
+                processador.getNumeroCpusLogicas(),
+                memoria.getTotal()/Math.pow(10,9),
                 memoria.getEmUso()/Math.pow(10,9),
                 memoria.getDisponivel()/Math.pow(10,9));
-
-
-
 
         DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
         List<Disco> discos = grupoDeDiscos.getDiscos();
+        System.out.printf("""
+                    ------------------------
+                    """);
         System.out.println("Discos");
         for (Disco disco : discos) {
             System.out.printf("""
-                    ------------------------
                     %s
                     Total
                     %.4sGB
-                    ------------------------
                     """,disco.getNome() ,disco.getTamanho()/Math.pow(10,9));
         }
+        System.out.printf("""
+                    ------------------------
+                    """);
 
         /*
         * A lista de serviços traz os serviços do sistema operacional como conexão wifi, sistemas de segurança etc
         * retornando o seu nome, estado (RUNNING, STOPPED) e seu ID
         * */
-        ProcessoGrupo processosGrupo = looca.getGrupoDeProcessos();
         ServicoGrupo servicoGrupo = looca.getGrupoDeServicos();
-        List<Volume> volumes = grupoDeDiscos.getVolumes();
-        List<Processo> processos = processosGrupo.getProcessos();
+
+
         List<Servico> servicos = servicoGrupo.getServicos();
+        ProcessoGrupo processosGrupo = looca.getGrupoDeProcessos();
+        List<Processo> processos = processosGrupo.getProcessos();
+        System.out.printf("""
+                     PID    | Processo | Descrição
+                    """);
+        for (Processo processo: processos){
+            System.out.printf("""
+                    %s   |    %s 
+                    """, processo.getPid(), processo.getNome());
+        }
+        System.out.printf("""
+                    ------------------------
+                    """);
+        System.out.println("Total de processos: " + processosGrupo.getTotalProcessos());
+
+
+        List<Volume> volumes = grupoDeDiscos.getVolumes();
+
 
     }
 }
