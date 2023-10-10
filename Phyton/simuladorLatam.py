@@ -4,7 +4,7 @@ import mysql.connector
 import platform
 import time
  
-conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay')
+conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 cursor = conexao.cursor()
 
