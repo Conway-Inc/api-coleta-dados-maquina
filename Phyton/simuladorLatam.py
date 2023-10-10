@@ -10,6 +10,7 @@ cursor = conexao.cursor()
 
 def rudge_ramos():
     cont = 0
+    jaExibiu = False
     
     qtd_core = psutil.cpu_count(logical=False)
     cpu_um_speed_max = psutil.cpu_freq().max / pow(10,3)
@@ -32,9 +33,19 @@ def rudge_ramos():
         elif (so == 'Linux'):
             disco_m1 = psutil.disk_usage('/bin').percent
         
+            
+
         cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 1), ({ram_m1}, NOW(), 2, 1),({disco_m1}, NOW(), 3, 1);")
             
         conexao.commit()
+
+        if (ram_m1 >= 90):
+            if (jaExibiu == False):
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (3,1,(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+                conexao.commit()
+                jaExibiu = True 
+        else: 
+            jaExibiu = False
         cont+=1
         print(cont)
         # time.sleep(1)

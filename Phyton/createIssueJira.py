@@ -9,14 +9,14 @@ mensagem = {"text": f"""
                 Protocolo  => 837021
                   
                 """}
-chatLatam = "https://hooks.slack.com/services/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"
+chatLatam = "https://hooks.slack.com/services/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"
 
 postMsg = requests.post(chatLatam, data=json.dumps(mensagem))
 
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF08ASG2iR-9PT2tOjNZBdLpMc9Dj7gwEdxTRLkB1ZDQ7g2eu4bHHa70DAxlJMMxWXfmofgjZOi0ulwIfDxI2AkMvWurRDVCmuDSVahZtzXk7yCks3VxIokvigYPfhcvX-3TR66LVEJFZOfKKNQdFbquno5Ug3HAFf6g7XzXtBurzs=FD4378DB")
+auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF0aZnHfTYvB5htdR9gmmuEmV7PJ-AcUH-VGlNb6Z6bqxEOIe1gPKAUGMt_TSBiKAj8ovYxN5PyE1UFK8BEfM3fYB8PzcxSeou3ogFTO3HMRsIFqRAwdpXcceRIy5mjFu29Df1wMt_mzdzCI4rWPbU4RPgjRC7-3vIT6eoZ7PQHmd8=E5FBFF87")
 
 headers = {
       "Accept": "application/json",
