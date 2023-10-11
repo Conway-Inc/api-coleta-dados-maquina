@@ -12,6 +12,7 @@ import com.github.britooo.looca.api.group.servicos.Servico;
 import com.github.britooo.looca.api.group.servicos.ServicoGrupo;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -31,65 +32,72 @@ public class Main {
                 ------------------------
                 Processador: %s
                 Frequência| Núcleos|Threads
-                %s|     %d  |   %d
+                %s GHz |   %d    |   %d
                 ------------------------
                 Memoria
                 Total|  Em uso  | Disponível
                 %.2sGB |  %.4sGB  |    %.3sGB
-                """, sistema.getSistemaOperacional(),
-                (sistema.getTempoDeAtividade()/86400),
+                ------------------------
+                """,
+                sistema.getSistemaOperacional(),
+                sistema.getTempoDeAtividade()/86400,
                 processador.getNome(),
-                processador.getFrequencia(),
+                processador.getFrequencia()/Math.pow(10,9),
                 processador.getNumeroCpusFisicas(),
                 processador.getNumeroCpusLogicas(),
                 memoria.getTotal()/Math.pow(10,9),
-                memoria.getEmUso()/Math.pow(10,9),
-                memoria.getDisponivel()/Math.pow(10,9));
+                (memoria.getEmUso()/Math.pow(10,9))-1,
+                memoria.getDisponivel()/Math.pow(10,9)
+        );
 
         DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
         List<Disco> discos = grupoDeDiscos.getDiscos();
-        System.out.printf("""
-                    ------------------------
-                    """);
-        System.out.println("Discos");
+        List nomeDisco = new ArrayList<>();
+        List<Double> tamanhoDisco = new ArrayList<>();
+
+        List<Volume> volumes = grupoDeDiscos.getVolumes();
+        List<Double> volumeDisponivel = new ArrayList<>();
+
         for (Disco disco : discos) {
+            nomeDisco.add(disco.getNome());
+            tamanhoDisco.add(disco.getTamanho().doubleValue());
+        }
+        for (Volume volume : volumes){
+            volumeDisponivel.add(volume.getDisponivel().doubleValue());
+        }
+
+        System.out.println("Discos");
+        for (Integer i = 0; i < nomeDisco.size(); i++) {
             System.out.printf("""
                     %s
                     Total
-                    %.4sGB
-                    """,disco.getNome() ,disco.getTamanho()/Math.pow(10,9));
-        }
-        System.out.printf("""
+                    %.5sGB
+                    Disponível 
+                    %.5sGB
                     ------------------------
-                    """);
+                    """,nomeDisco.get(i),
+                    tamanhoDisco.get(i)/Math.pow(10,9),
+                    volumeDisponivel.get(i)/Math.pow(10,9)
+            );
 
-        /*
-        * A lista de serviços traz os serviços do sistema operacional como conexão wifi, sistemas de segurança etc
-        * retornando o seu nome, estado (RUNNING, STOPPED) e seu ID
-        * */
+        }
+
         ServicoGrupo servicoGrupo = looca.getGrupoDeServicos();
-
-
         List<Servico> servicos = servicoGrupo.getServicos();
         ProcessoGrupo processosGrupo = looca.getGrupoDeProcessos();
         List<Processo> processos = processosGrupo.getProcessos();
         System.out.printf("""
-                     PID    | Processo | Descrição
+                     PID    | Processo
+                     ------------------
                     """);
         for (Processo processo: processos){
             System.out.printf("""
-                    %s   |    %s 
+                    %s    |    %s 
+                    ------------------
                     """, processo.getPid(), processo.getNome());
         }
-        System.out.printf("""
-                    ------------------------
-                    """);
         System.out.println("Total de processos: " + processosGrupo.getTotalProcessos());
-
-
-        List<Volume> volumes = grupoDeDiscos.getVolumes();
-
-
+        System.out.println("Total de serviços: " + servicoGrupo.getTotalServicosAtivos());
     }
 }
