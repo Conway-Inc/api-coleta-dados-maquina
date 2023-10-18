@@ -10,7 +10,8 @@ cursor = conexao.cursor()
 
 def rudge_ramos():
     cont = 0
-    jaExibiu = False
+    isExibiuAlerta = False
+    isExibiuCritico = False
     
     qtd_core = psutil.cpu_count(logical=False)
     cpu_um_speed_max = psutil.cpu_freq().max / pow(10,3)
@@ -39,13 +40,21 @@ def rudge_ramos():
             
         conexao.commit()
 
-        if (ram_m1 >= 90):
-            if (jaExibiu == False):
+        if (ram_m1 >= 85) and (ram_m1 < 95):
+            if (isExibiuAlerta == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (3,1,(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
-                jaExibiu = True 
+                isExibiuAlerta = True 
+                isExibiuCritico = False
+        elif (ram_m1 >= 95):
+            if (isExibiuCritico == False):
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (3,1,(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+                conexao.commit()
+                isExibiuAlerta = False 
+                isExibiuCritico = True 
         else: 
-            jaExibiu = False
+            isExibiuAlerta = False 
+            isExibiuCritico = False
         cont+=1
         print(cont)
         # time.sleep(1)
