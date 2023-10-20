@@ -36,19 +36,19 @@ def rudge_ramos():
         
             
 
-        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 1), ({ram_m1}, NOW(), 2, 1),({disco_m1}, NOW(), 3, 1);")
+        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 6), ({ram_m1}, NOW(), 2, 6),({disco_m1}, NOW(), 3, 6);")
             
         conexao.commit()
 
         if (ram_m1 >= 85) and (ram_m1 < 95):
             if (isExibiuAlerta == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 6 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 isExibiuAlerta = True 
                 isExibiuCritico = False
         elif (ram_m1 >= 95):
             if (isExibiuCritico == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 6 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 isExibiuAlerta = False 
                 isExibiuCritico = True 
@@ -58,13 +58,13 @@ def rudge_ramos():
 
         if (cpu_m1 >= 85) and (cpu_m1 < 95):
             if (isExibiuAlerta == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 6 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 isExibiuAlerta = True 
                 isExibiuCritico = False
         elif (cpu_m1 >= 95):
             if (isExibiuCritico == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
+                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 6 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 isExibiuAlerta = False 
                 isExibiuCritico = True 
