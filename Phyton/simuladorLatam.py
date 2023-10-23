@@ -10,8 +10,10 @@ cursor = conexao.cursor()
 
 def rudge_ramos():
     cont = 0
-    isExibiuAlerta = False
-    isExibiuCritico = False
+    isExibiuAlertaRam = False
+    isExibiuAlertaCpu = False
+    isExibiuCriticoRam = False
+    isExibiuCriticoCpu = False
     
     qtd_core = psutil.cpu_count(logical=False)
     cpu_um_speed_max = psutil.cpu_freq().max / pow(10,3)
@@ -41,36 +43,36 @@ def rudge_ramos():
         conexao.commit()
 
         if (ram_m1 >= 85) and (ram_m1 < 95):
-            if (isExibiuAlerta == False):
+            if (isExibiuAlertaRam == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
-                isExibiuAlerta = True 
-                isExibiuCritico = False
+                isExibiuAlertaRam = True 
+                isExibiuCriticoRam = False
         elif (ram_m1 >= 95):
-            if (isExibiuCritico == False):
+            if (isExibiuCriticoRam == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
-                isExibiuAlerta = False 
-                isExibiuCritico = True 
+                isExibiuAlertaRam = False 
+                isExibiuCriticoRam = True 
         else: 
-            isExibiuAlerta = False 
-            isExibiuCritico = False
+            isExibiuAlertaRam = False 
+            isExibiuCriticoRam = False
 
         if (cpu_m1 >= 85) and (cpu_m1 < 95):
-            if (isExibiuAlerta == False):
+            if (isExibiuAlertaCpu == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
-                isExibiuAlerta = True 
-                isExibiuCritico = False
+                isExibiuAlertaCpu = True 
+                isExibiuCriticoCpu = False
         elif (cpu_m1 >= 95):
-            if (isExibiuCritico == False):
+            if (isExibiuCriticoCpu == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
-                isExibiuAlerta = False 
-                isExibiuCritico = True 
+                isExibiuAlertaCpu = False 
+                isExibiuCriticoCpu = True 
         else: 
-            isExibiuAlerta = False 
-            isExibiuCritico = False
+            isExibiuAlertaCpu = False 
+            isExibiuCriticoCpu = False
         cont+=1
         print(cont)
         # time.sleep(1)
