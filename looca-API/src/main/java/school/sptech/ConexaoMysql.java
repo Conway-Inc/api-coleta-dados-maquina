@@ -3,24 +3,31 @@ package school.sptech;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class ConexaoMysql {
-    private JdbcTemplate conexaoBanco;
+    private static final String url = "jdbc:mysql://localhost:3306/ConWay";
+    private static final String user = "user_conway";
+    private static final String password = "urubu100";
 
-    public ConexaoMysql(){
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/ConWay");
+    private static Connection conexao;
 
-        /*MUDAR PARA O SEU USUÁRIO MYSQL PARA TESTES*/
-        dataSource.setUsername("");
-        dataSource.setPassword("");
+    public static Connection getConexao(){
+        try {
+            if(conexao == mull){
+                conexao = DriverManager.getConnection(url, user, password);
+                return conexao;
+            }
+            else{
+                return conexao;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
 
-        conexaoBanco = new JdbcTemplate(dataSource);
-
-
-
-    }
-    public JdbcTemplate getConexaoBanco() {
-        return conexaoBanco;
     }
 }
