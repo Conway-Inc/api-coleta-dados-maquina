@@ -13,21 +13,39 @@ public class ConexaoMysql {
     private static final String user = "user_conway";
     private static final String password = "urubu100";
 
+    private static final String nameDrive = "com.mysql.cj.jdbc.Driver";
     private static Connection conexao;
 
-    public static Connection getConexao(){
-        try {
-            if(conexao == mull){
-                conexao = DriverManager.getConnection(url, user, password);
-                return conexao;
-            }
-            else{
-                return conexao;
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-            return null;
-        }
+//    public static Connection getConexao(){
+//        try {
+//            if(conexao == null){
+//                conexao = DriverManager.getConnection(url, user, password);
+//                return conexao;
+//            }
+//            else{
+//                return conexao;
+//            }
+//        } catch (SQLException e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//    }
 
+    private JdbcTemplate conexaoDoBanco;
+
+    public ConexaoMysql() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(nameDrive);
+        dataSource.setUrl(url);
+        dataSource.setUsername(user);
+        dataSource.setPassword(password);
+
+        conexaoDoBanco = new JdbcTemplate(dataSource);
     }
+
+    public JdbcTemplate getConexaoDoBanco() {
+        return conexaoDoBanco;
+    }
+
 }

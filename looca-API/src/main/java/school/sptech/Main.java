@@ -11,7 +11,9 @@ import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
 import com.github.britooo.looca.api.group.servicos.Servico;
 import com.github.britooo.looca.api.group.servicos.ServicoGrupo;
 import com.github.britooo.looca.api.group.sistema.Sistema;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,10 @@ import java.util.List;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
+        ConexaoMysql conexao = new ConexaoMysql();
+        JdbcTemplate con = conexao.getConexaoDoBanco();
+        LocalDateTime dataHora = LocalDateTime.now();
+
         Looca looca = new Looca();
 
         Sistema sistema = looca.getSistema();
@@ -49,6 +55,10 @@ public class Main {
                 (memoria.getEmUso()/Math.pow(10,9))-1,
                 memoria.getDisponivel()/Math.pow(10,9)
         );
+
+        con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
+        (memoria.getEmUso()/Math.pow(10,9))-1, dataHora, 1, 4);
+
 
         DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
@@ -81,7 +91,12 @@ public class Main {
                     volumeDisponivel.get(i)/Math.pow(10,9)
             );
 
+            con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
+                    tamanhoDisco.get(i)/Math.pow(10,9) - volumeDisponivel.get(i)/Math.pow(10,9), dataHora, 1, 4);
+
         }
+
+
 
         ServicoGrupo servicoGrupo = looca.getGrupoDeServicos();
         List<Servico> servicos = servicoGrupo.getServicos();
