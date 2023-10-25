@@ -79,7 +79,7 @@ def rudge_ramos():
             isExibiuCriticoCpu = False
         cont+=1
         print(cont)
-        # time.sleep(1)
+        time.sleep(3)
  
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
