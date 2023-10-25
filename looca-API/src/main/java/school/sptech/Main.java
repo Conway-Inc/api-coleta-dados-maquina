@@ -8,7 +8,7 @@ import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.processos.Processo;
 import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
-import com.github.britooo.looca.api.group.servicos.Servico;
+//import com.github.britooo.looca.api.group.servicos.Servico;
 import com.github.britooo.looca.api.group.servicos.ServicoGrupo;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +24,7 @@ public class Main {
         ConexaoMysql conexao = new ConexaoMysql();
         JdbcTemplate con = conexao.getConexaoDoBanco();
         LocalDateTime dataHora = LocalDateTime.now();
+
 
         Looca looca = new Looca();
 
@@ -57,13 +58,16 @@ public class Main {
         );
 
         con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
-        (memoria.getEmUso()/Math.pow(10,9))-1, dataHora, 1, 4);
+                Math.ceil(processador.getUso()), dataHora, 1, 1);
 
+        con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
+                (Math.ceil(memoria.getEmUso()/Math.pow(10,9))/Math.ceil(memoria.getTotal()/Math.pow(10,9)) * 100)
+                , dataHora, 2, 1);
 
-        DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
+        // DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
         List<Disco> discos = grupoDeDiscos.getDiscos();
-        List nomeDisco = new ArrayList<>();
+        List<Object> nomeDisco = new ArrayList<>();
         List<Double> tamanhoDisco = new ArrayList<>();
 
         List<Volume> volumes = grupoDeDiscos.getVolumes();
@@ -78,12 +82,13 @@ public class Main {
         }
 
         System.out.println("Discos");
-        for (Integer i = 0; i < nomeDisco.size(); i++) {
+
+        for (int i = 0; i < nomeDisco.size(); i++) {
             System.out.printf("""
                     %s
                     Total
                     %.5sGB
-                    Disponível 
+                    Disponível
                     %.5sGB
                     ------------------------
                     """,nomeDisco.get(i),
@@ -92,23 +97,23 @@ public class Main {
             );
 
             con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
-                    tamanhoDisco.get(i)/Math.pow(10,9) - volumeDisponivel.get(i)/Math.pow(10,9), dataHora, 1, 4);
+                    volumeDisponivel.get(i)/Math.pow(10,9), dataHora, 4, 1);
 
         }
 
 
 
         ServicoGrupo servicoGrupo = looca.getGrupoDeServicos();
-        List<Servico> servicos = servicoGrupo.getServicos();
+        // List<Servico> servicos = servicoGrupo.getServicos();
         ProcessoGrupo processosGrupo = looca.getGrupoDeProcessos();
         List<Processo> processos = processosGrupo.getProcessos();
-        System.out.printf("""
+        System.out.print("""
                      PID    | Processo
                      ------------------
                     """);
         for (Processo processo: processos){
             System.out.printf("""
-                    %s    |    %s 
+                    %s    |    %s
                     ------------------
                     """, processo.getPid(), processo.getNome());
         }
