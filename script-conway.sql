@@ -250,7 +250,7 @@ INSERT INTO Alerta (tipo, fkRegistro) VALUES (1,1),
 -- USUÁRIO
 DROP USER IF EXISTS 'user_conway'@'localhost';
 CREATE USER 'user_conway'@'localhost' IDENTIFIED WITH mysql_native_password BY 'urubu100';
-GRANT ALL ON ConWay.* TO 'user_conway'@'localhost';
+GRANT ALL ON ConWay.* TO 'user_conway'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 -- VIEW
