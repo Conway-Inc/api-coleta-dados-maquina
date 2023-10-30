@@ -65,20 +65,20 @@ def rudge_ramos():
         print(cont)
         time.sleep(3)
 
-        if (exibiu == False):
-         if (ram_m1 > 83):
-             mensagem = {"text": f"""
-            🚨ALERTA🚨
+        # if (exibiu == False):
+        #  if (ram_m1 > 83):
+        #      mensagem = {"text": f"""
+        #     🚨ALERTA🚨
 
-            Protocolo  => 837021
-            Data          => {data}
-            Totem          => XPTO
-            Descrição  => {"Sua memória RAM ultrapassou:"} {ram_m1}%  
-            """}
-             chatItau = "https://hooks.slack.com/services/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"
+        #     Protocolo  => 837021
+        #     Data          => {data}
+        #     Totem          => XPTO
+        #     Descrição  => {"Sua memória RAM ultrapassou:"} {ram_m1}%  
+        #     """}
+        #      chatItau = "https://hooks.slack.com/services/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"
 
-             postMsg = requests.post(chatItau, data=json.dumps(mensagem))
-             exibiu = True
+        #      postMsg = requests.post(chatItau, data=json.dumps(mensagem))
+        #      exibiu = True
  
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
