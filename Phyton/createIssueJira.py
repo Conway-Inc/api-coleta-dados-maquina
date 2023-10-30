@@ -16,7 +16,7 @@ from datetime import datetime
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF0aZnHfTYvB5htdR9gmmuEmV7PJ-AcUH-VGlNb6Z6bqxEOIe1gPKAUGMt_TSBiKAj8ovYxN5PyE1UFK8BEfM3fYB8PzcxSeou3ogFTO3HMRsIFqRAwdpXcceRIy5mjFu29Df1wMt_mzdzCI4rWPbU4RPgjRC7-3vIT6eoZ7PQHmd8=E5FBFF87")
+auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF0UWIqpINKiVwGbcOx109CTHFxe1MO1PfFCc-m2NIYncUxq2N0Mj27kVhBsH_9K0Mt5WsFXVpd_qdrygI9vbcaHlAR9ltV00pB7AyoJc3sbibIzGfSQzIrf0D9YxAD2XImDhGsTRBMGLvqBsjMPhcsnVaBgewtxLLm_pYKboBPl1Q=9CE1C664")
 
 headers = {
       "Accept": "application/json",
