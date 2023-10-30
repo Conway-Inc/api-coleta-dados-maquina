@@ -8,7 +8,7 @@ conexao = mysql.connector.connect(user='user_conway', password='urubu100', host=
 
 cursor = conexao.cursor()
 
-def main():
+def latam():
     cont = 0
     isExibiuAlertaRam = False
     isExibiuAlertaCpu = False
@@ -83,6 +83,6 @@ def main():
  
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    main()
+    latam()
 else:
     print("Houve erro ao conectar")
