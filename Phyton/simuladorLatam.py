@@ -40,7 +40,7 @@ def rudge_ramos():
         
             
 
-        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 1), ({ram_m1}, NOW(), 2, 1),({disco_m1}, NOW(), 3, 1);")
+        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 5), ({ram_m1}, NOW(), 2, 5),({disco_m1}, NOW(), 3, 5);")
             
         conexao.commit()
 
@@ -63,7 +63,7 @@ def rudge_ramos():
                 print("Alerta Crítico: CPU")
         cont+=1
         print(cont)
-        time.sleep(3)
+        # time.sleep(1)
 
   
 if (conexao.is_connected()):
