@@ -3,8 +3,6 @@ from datetime import datetime
 import mysql.connector
 import platform
 import time
-import requests
-import json
  
 conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
@@ -45,27 +43,44 @@ def latam():
         conexao.commit()
 
         if (ram_m1 >= 85) and (ram_m1 < 95):
+            if (isExibiuAlertaRam == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Atenção: Memória")
+                isExibiuAlertaRam = True 
+                isExibiuCriticoRam = False
         elif (ram_m1 >= 95):
+            if (isExibiuCriticoRam == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Crítico: Memória")
+                isExibiuAlertaRam = False 
+                isExibiuCriticoRam = True 
+        else: 
+            isExibiuAlertaRam = False 
+            isExibiuCriticoRam = False
 
         if (cpu_m1 >= 85) and (cpu_m1 < 95):
+            if (isExibiuAlertaCpu == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Atenção: CPU")
+                isExibiuAlertaCpu = True 
+                isExibiuCriticoCpu = False
         elif (cpu_m1 >= 95):
+            if (isExibiuCriticoCpu == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Crítico: CPU")
+                isExibiuAlertaCpu = False 
+                isExibiuCriticoCpu = True 
+        else: 
+            isExibiuAlertaCpu = False 
+            isExibiuCriticoCpu = False
         cont+=1
         print(cont)
-        # time.sleep(1)
-
-  
+        time.sleep(1)
+ 
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
     latam()
