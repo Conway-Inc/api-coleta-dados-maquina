@@ -10,7 +10,7 @@ conexao = mysql.connector.connect(user='user_conway', password='urubu100', host=
 
 cursor = conexao.cursor()
 
-def rudge_ramos():
+def latam():
     cont = 0
     isExibiuAlertaRam = False
     isExibiuAlertaCpu = False
@@ -40,7 +40,7 @@ def rudge_ramos():
         
             
 
-        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 5), ({ram_m1}, NOW(), 2, 5),({disco_m1}, NOW(), 3, 5);")
+        cursor.execute(f"INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES ({cpu_m1}, NOW(), 1, 1), ({ram_m1}, NOW(), 2, 1),({disco_m1}, NOW(), 3, 1);")
             
         conexao.commit()
 
@@ -68,6 +68,6 @@ def rudge_ramos():
   
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    rudge_ramos()
+    latam()
 else:
     print("Houve erro ao conectar")
