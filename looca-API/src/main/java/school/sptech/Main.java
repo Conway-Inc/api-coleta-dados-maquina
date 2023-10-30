@@ -34,7 +34,7 @@ public class Main {
         System.out.printf("""
                 ------------------------
                 Sistema operacional: %s
-                ------------------------
+                ------------------------w
                 Tempo de atividade: %s Dias
                 ------------------------
                 Processador: %s

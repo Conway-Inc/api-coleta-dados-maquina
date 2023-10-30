@@ -3,15 +3,15 @@ from requests.auth import HTTPBasicAuth
 import json
 from datetime import datetime
 
-mensagem = {"text": f"""
-               🚨ALERTA🚨
+# mensagem = {"text": f"""
+#                🚨ALERTA🚨
 
-                Protocolo  => 837021
+#                 Protocolo  => 837021
                   
-                """}
-chatLatam = "https://hooks.slack.com/services/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"
+#                 """}
+# chatLatam = "https://hooks.slack.com/services/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"
 
-postMsg = requests.post(chatLatam, data=json.dumps(mensagem))
+# postMsg = requests.post(chatLatam, data=json.dumps(mensagem))
 
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
