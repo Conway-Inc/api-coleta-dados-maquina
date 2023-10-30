@@ -3,6 +3,18 @@ from datetime import datetime
 import mysql.connector
 import platform
 import time
+import requests
+from requests.auth import HTTPBasicAuth
+import json
+
+url = "https://conway-airway.atlassian.net/rest/api/3/issue"
+
+auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF0MGnHg3aV7o5aoc748baZDn-UvxSw5rYufU0bruWQa0oUKiXqXP7Fs7-UuqAcqWPkyAPi-aZdTNmuUWur8dCGls60CD-AUyNTi-hTr-ZJojNBJKLARMA8AARfWNzkFnBruIHFjzzstcW_D-HH771nRrTRAA05U9eNqAJ-LfJR3Vo=39C66BA5")
+
+headers = {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+}
  
 conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
@@ -46,6 +58,7 @@ def latam():
             if (isExibiuAlertaRam == False):
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
+                abrirChamado()
                 print("Alerta Atenção: Memória")
                 isExibiuAlertaRam = True 
                 isExibiuCriticoRam = False
@@ -54,6 +67,7 @@ def latam():
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Crítico: Memória")
+                abrirChamado()
                 isExibiuAlertaRam = False 
                 isExibiuCriticoRam = True 
         else: 
@@ -65,6 +79,7 @@ def latam():
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Atenção: CPU")
+                abrirChamado()
                 isExibiuAlertaCpu = True 
                 isExibiuCriticoCpu = False
         elif (cpu_m1 >= 95):
@@ -72,6 +87,7 @@ def latam():
                 cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
                 conexao.commit()
                 print("Alerta Crítico: CPU")
+                abrirChamado()
                 isExibiuAlertaCpu = False 
                 isExibiuCriticoCpu = True 
         else: 
@@ -80,7 +96,37 @@ def latam():
         cont+=1
         print(cont)
         time.sleep(1)
- 
+
+
+def abrirChamado():
+    payload = json.dumps({
+        "fields":{
+            "summary": "837021 - ALERTA DO SLACK",
+            "project":{"key":"AWLATAM"},
+            'issuetype': {'name': 'General request'},
+            "description": {"content": [{"content": [
+                                          {
+                                            "text": "CONFIRA SEUS ALERTAS!!!!",
+                                            "type": "text"
+                                          }],
+                                        "type": "paragraph"}],
+                                        "type": "doc",
+                                        "version": 1}
+          }
+    })
+    
+
+    response = requests.request(
+        "POST",
+        url,
+        data=payload,
+        headers=headers,
+        auth=auth
+        )
+
+    print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+
+
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
     latam()
