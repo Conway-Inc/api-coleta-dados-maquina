@@ -9,7 +9,7 @@ import json
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-token = "ATATT3xFfGF0R7yWCdYA6udZchS-ILOx4wm5tjOF6o8yx5WrjZqGo85VgduWmRHSci3kYdGYNK9-3ZYIfC9LHvDhkkH5mLCXphmofwrZU0bID6cSB6nyJWuDozbKi9IixXJb76z4SiFxkSTrU3M61J6MvsfI-mkXLbIofsQAN-amgWGU1RMggW8=F180510D"
+token = "ATATT3xFfGF0FtTpqZ1Brbu8CoU7j0GQBJY-PxNoAM73cA0KPrFNA0pbDdWCgIzJlqPd8g8DEx26PpcUERNOk_C_lUQnT2uQlohoNbKy6H8P260ZYxq4fmW5eKXADoXUqeMYawdZdvKsmYeiGFTpLGmE8zPUgm7XU4L8AvILBNP8YK_DeKHX9fg=6A11A56A"
 
 auth = HTTPBasicAuth("conway.sptech@gmail.com", token)
 
@@ -22,7 +22,7 @@ conexao = mysql.connector.connect(user='user_conway', password='urubu100', host=
 
 cursor = conexao.cursor()
 
-def latam():
+def main():
     cont = 0
     isExibiuAlertaRam = False
     isExibiuAlertaCpu = False
@@ -62,17 +62,15 @@ def latam():
             print("Alerta Atenção: Memória")
             if (isExibiuAlertaRam == False):
                 abrirChamadoRAM(2)    
-                isExibiuAlertaRam = True 
-                isExibiuCriticoRam = False
+                isExibiuAlertaRam = True
         elif (ram_m1 >= 95):
             cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
             conexao.commit()
             print("Alerta Crítico: Memória")
             if (isExibiuCriticoRam == False):
                 abrirChamadoRAM(1)
-                isExibiuAlertaRam = False 
                 isExibiuCriticoRam = True 
-        else: 
+        elif (ram_m1 < 75): 
             isExibiuAlertaRam = False 
             isExibiuCriticoRam = False
 
@@ -84,8 +82,7 @@ def latam():
             if (isExibiuAlertaCpu == False):
 
                 abrirChamadoCPU(2)
-                isExibiuAlertaCpu = True 
-                isExibiuCriticoCpu = False
+                isExibiuAlertaCpu = True
 
         elif (cpu_m1 >= 95):
             cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
@@ -94,7 +91,6 @@ def latam():
 
             if (isExibiuCriticoCpu == False):
                 abrirChamadoCPU(1)
-                isExibiuAlertaCpu = False 
                 isExibiuCriticoCpu = True 
         elif (cpu_m1 < 75): 
             isExibiuAlertaCpu = False 
@@ -155,12 +151,12 @@ def abrirChamadoCPU(tipoAlerta):
     if (tipoAlerta == 1):
         payload = json.dumps({
             "fields":{
-                "summary": "TLT-1 - RAM EM ESTADO CRÍTICO",
+                "summary": "TLT-1 - CPU EM ESTADO CRÍTICO",
                 "project":{"key":"AWLATAM"},
                 'issuetype': {'name': 'General request'},
                 "description": {"content": [{"content": [
                                             {
-                                                "text": "A memória RAM do totem TLT-1 está em estado crítico!",
+                                                "text": "A CPU do totem TLT-1 está em estado crítico!",
                                                 "type": "text"
                                             }],
                                             "type": "paragraph"}],
@@ -172,12 +168,12 @@ def abrirChamadoCPU(tipoAlerta):
     else:
         payload = json.dumps({
             "fields":{
-                "summary": "TLT-1 - RAM EM ESTADO DE ATENÇÃO",
+                "summary": "TLT-1 - CPU EM ESTADO DE ATENÇÃO",
                 "project":{"key":"AWLATAM"},
                 'issuetype': {'name': 'General request'},
                 "description": {"content": [{"content": [
                                             {
-                                                "text": "A memória RAM do totem TLT-1 está acima de 75%!",
+                                                "text": "A CPU do totem TLT-1 está acima de 75%!",
                                                 "type": "text"
                                             }],
                                             "type": "paragraph"}],
@@ -200,6 +196,6 @@ def abrirChamadoCPU(tipoAlerta):
 
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    latam()
+    main()
 else:
     print("Houve erro ao conectar")
