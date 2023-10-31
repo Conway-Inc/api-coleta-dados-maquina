@@ -9,7 +9,9 @@ import json
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-auth = HTTPBasicAuth("conway.sptech@gmail.com", "ATATT3xFfGF0MGnHg3aV7o5aoc748baZDn-UvxSw5rYufU0bruWQa0oUKiXqXP7Fs7-UuqAcqWPkyAPi-aZdTNmuUWur8dCGls60CD-AUyNTi-hTr-ZJojNBJKLARMA8AARfWNzkFnBruIHFjzzstcW_D-HH771nRrTRAA05U9eNqAJ-LfJR3Vo=39C66BA5")
+token = "ATATT3xFfGF0R7yWCdYA6udZchS-ILOx4wm5tjOF6o8yx5WrjZqGo85VgduWmRHSci3kYdGYNK9-3ZYIfC9LHvDhkkH5mLCXphmofwrZU0bID6cSB6nyJWuDozbKi9IixXJb76z4SiFxkSTrU3M61J6MvsfI-mkXLbIofsQAN-amgWGU1RMggW8=F180510D"
+
+auth = HTTPBasicAuth("conway.sptech@gmail.com", token)
 
 headers = {
       "Accept": "application/json",
@@ -55,19 +57,19 @@ def latam():
         conexao.commit()
 
         if (ram_m1 >= 85) and (ram_m1 < 95):
+            cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+            conexao.commit()
+            print("Alerta Atenção: Memória")
             if (isExibiuAlertaRam == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
-                conexao.commit()
-                abrirChamado()
-                print("Alerta Atenção: Memória")
+                abrirChamadoRAM(2)    
                 isExibiuAlertaRam = True 
                 isExibiuCriticoRam = False
         elif (ram_m1 >= 95):
+            cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
+            conexao.commit()
+            print("Alerta Crítico: Memória")
             if (isExibiuCriticoRam == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{ram_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 2 ORDER BY dataHora DESC LIMIT 1));")
-                conexao.commit()
-                print("Alerta Crítico: Memória")
-                abrirChamado()
+                abrirChamadoRAM(1)
                 isExibiuAlertaRam = False 
                 isExibiuCriticoRam = True 
         else: 
@@ -75,22 +77,26 @@ def latam():
             isExibiuCriticoRam = False
 
         if (cpu_m1 >= 85) and (cpu_m1 < 95):
+            cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
+            conexao.commit()
+            print("Alerta Atenção: CPU")
+
             if (isExibiuAlertaCpu == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (2,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
-                conexao.commit()
-                print("Alerta Atenção: CPU")
-                abrirChamado()
+
+                abrirChamadoCPU(2)
                 isExibiuAlertaCpu = True 
                 isExibiuCriticoCpu = False
+
         elif (cpu_m1 >= 95):
+            cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
+            conexao.commit()
+            print("Alerta Crítico: CPU")
+
             if (isExibiuCriticoCpu == False):
-                cursor.execute(f"INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (1,{cpu_m1},(SELECT idRegistro FROM Registro WHERE fkTotem = 1 AND fkComponente = 1 ORDER BY dataHora DESC LIMIT 1));")
-                conexao.commit()
-                print("Alerta Crítico: CPU")
-                abrirChamado()
+                abrirChamadoCPU(1)
                 isExibiuAlertaCpu = False 
                 isExibiuCriticoCpu = True 
-        else: 
+        elif (cpu_m1 < 75): 
             isExibiuAlertaCpu = False 
             isExibiuCriticoCpu = False
         cont+=1
@@ -98,22 +104,87 @@ def latam():
         time.sleep(1)
 
 
-def abrirChamado():
-    payload = json.dumps({
-        "fields":{
-            "summary": "837021 - ALERTA DO SLACK",
-            "project":{"key":"AWLATAM"},
-            'issuetype': {'name': 'General request'},
-            "description": {"content": [{"content": [
-                                          {
-                                            "text": "CONFIRA SEUS ALERTAS!!!!",
-                                            "type": "text"
-                                          }],
-                                        "type": "paragraph"}],
-                                        "type": "doc",
-                                        "version": 1}
-          }
-    })
+def abrirChamadoRAM(tipoAlerta):
+
+    if (tipoAlerta == 1):
+        payload = json.dumps({
+            "fields":{
+                "summary": "TLT-1 - RAM EM ESTADO CRÍTICO",
+                "project":{"key":"AWLATAM"},
+                'issuetype': {'name': 'General request'},
+                "description": {"content": [{"content": [
+                                            {
+                                                "text": "A memória RAM do totem TLT-1 está em estado crítico!",
+                                                "type": "text"
+                                            }],
+                                            "type": "paragraph"}],
+                                            "type": "doc",
+                                            "version": 1}
+            }
+        })
+
+    else:
+        payload = json.dumps({
+            "fields":{
+                "summary": "TLT-1 - RAM EM ESTADO DE ATENÇÃO",
+                "project":{"key":"AWLATAM"},
+                'issuetype': {'name': 'General request'},
+                "description": {"content": [{"content": [
+                                            {
+                                                "text": "A memória RAM do totem TLT-1 está acima de 75%!",
+                                                "type": "text"
+                                            }],
+                                            "type": "paragraph"}],
+                                            "type": "doc",
+                                            "version": 1}
+            }
+        })
+    
+
+    response = requests.request(
+        "POST",
+        url,
+        data=payload,
+        headers=headers,
+        auth=auth
+        )
+
+    print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
+
+def abrirChamadoCPU(tipoAlerta):
+    if (tipoAlerta == 1):
+        payload = json.dumps({
+            "fields":{
+                "summary": "TLT-1 - RAM EM ESTADO CRÍTICO",
+                "project":{"key":"AWLATAM"},
+                'issuetype': {'name': 'General request'},
+                "description": {"content": [{"content": [
+                                            {
+                                                "text": "A memória RAM do totem TLT-1 está em estado crítico!",
+                                                "type": "text"
+                                            }],
+                                            "type": "paragraph"}],
+                                            "type": "doc",
+                                            "version": 1}
+            }
+        })
+
+    else:
+        payload = json.dumps({
+            "fields":{
+                "summary": "TLT-1 - RAM EM ESTADO DE ATENÇÃO",
+                "project":{"key":"AWLATAM"},
+                'issuetype': {'name': 'General request'},
+                "description": {"content": [{"content": [
+                                            {
+                                                "text": "A memória RAM do totem TLT-1 está acima de 75%!",
+                                                "type": "text"
+                                            }],
+                                            "type": "paragraph"}],
+                                            "type": "doc",
+                                            "version": 1}
+            }
+        })
     
 
     response = requests.request(
