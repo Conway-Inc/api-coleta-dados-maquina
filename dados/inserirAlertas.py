@@ -8,7 +8,7 @@ cursor = conexao.cursor()
 
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    with open(("D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/alertas.csv")) as f:
+    with open(("C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/alertas.csv")) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
