@@ -9,7 +9,7 @@ import json
 
 url = "https://conway-airway.atlassian.net/rest/api/3/issue"
 
-token = "ATATT3xFfGF0FtTpqZ1Brbu8CoU7j0GQBJY-PxNoAM73cA0KPrFNA0pbDdWCgIzJlqPd8g8DEx26PpcUERNOk_C_lUQnT2uQlohoNbKy6H8P260ZYxq4fmW5eKXADoXUqeMYawdZdvKsmYeiGFTpLGmE8zPUgm7XU4L8AvILBNP8YK_DeKHX9fg=6A11A56A"
+token = "ATATT3xFfGF0mu_UyMv-1iVC988H_yh9XR8o6TkeO_GZvKlH336Q7jLJTPX5-fbmJ9OYKpk7YxY98id7aIOuL_h6lKIFW7mG7hvkvm-QsLLAviNgzanxL9qUDEJEIe7ynsbDHpG0I96mTHpGPn13N79GPGOokKvO5AGtMLEBe0i2W_0dxyqT4iw=DDB7FE30"
 
 auth = HTTPBasicAuth("conway.sptech@gmail.com", token)
 
@@ -17,8 +17,12 @@ headers = {
       "Accept": "application/json",
       "Content-Type": "application/json"
 }
- 
+
+# CONEXAO LOCAL  
 conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+
+# CONEXAO AWS
+# conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 cursor = conexao.cursor()
 

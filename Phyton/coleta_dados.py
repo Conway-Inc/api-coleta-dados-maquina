@@ -7,10 +7,20 @@ import json
 import platform
 import time
  
+
+#  CONEXAO LOCAL
 conexao = mysql.connector.connect(
     user='user_conway', 
     password='urubu100', 
     host='localhost', 
+    database='ConWay',
+    auth_plugin="mysql_native_password")
+
+# CONEXAO AWS
+conexao = mysql.connector.connect(
+    user='root', 
+    password='urubu100', 
+    host='44.212.3.214', 
     database='ConWay',
     auth_plugin="mysql_native_password")
 
