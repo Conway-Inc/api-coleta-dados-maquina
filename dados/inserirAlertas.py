@@ -1,8 +1,11 @@
 import csv
 import mysql.connector
 
+# CONEXAO LOCAL 
+# conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
-conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+# CONEXAO AWS
+conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
 
 cursor = conexao.cursor()
 
@@ -24,7 +27,7 @@ if (conexao.is_connected()):
 
             # Inserir o registro no banco de dados
             cursor.execute(
-                "INSERT INTO alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (%s, %s, %s, %s)",
                 (idAlerta, tipo, descricao, fkRegistro)
             )
             conexao.commit()
