@@ -3,12 +3,15 @@ import mysql.connector
 
 
 # CONEXÃO LOCAL
-# conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 # CONEXAO AWS
-conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
+# conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
 
 cursor = conexao.cursor()
+
+bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/registros.csv"
+kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/registros.csv"
 
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
