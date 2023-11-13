@@ -2,13 +2,20 @@ import csv
 import mysql.connector
 
 
+# CONEXÃO LOCAL
 conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+
+# CONEXAO AWS
+# conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
 
 cursor = conexao.cursor()
 
+bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/registros.csv"
+kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/registros.csv"
+
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    with open(("D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/registros.csv")) as f:
+    with open(("C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/registros.csv")) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
@@ -25,7 +32,7 @@ if (conexao.is_connected()):
 
             # Inserir o registro no banco de dados
             cursor.execute(
-                "INSERT INTO registro (idRegistro,valor, dataHora, fkComponente, fkTotem) VALUES (%s,%s, %s, %s, %s)",
+                "INSERT INTO Registro (idRegistro,valor, dataHora, fkComponente, fkTotem) VALUES (%s,%s, %s, %s, %s)",
                 (idRegistro, valor, dataHora, fkComponente, fkTotem)
             )
             conexao.commit()
