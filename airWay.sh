@@ -18,6 +18,6 @@ git clone https://github.com/Conway-Inc/api-coleta-dados-maquina.git
 cd api-coleta-dados-maquina
 service mysql start
 
-sudo mysql -u root -purubu100 -e "source script-conway.sql"
+sudo mysql -u root -urubu100 -e "source script-conway.sql"
 cd Phyton/
 python3 api-cliente.py
