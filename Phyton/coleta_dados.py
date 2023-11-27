@@ -6,6 +6,7 @@ import requests
 import json
 import platform
 import time
+import pyodbc
  
 
 #  CONEXAO LOCAL
@@ -16,13 +17,22 @@ conexao = mysql.connector.connect(
     database='ConWay',
     auth_plugin="mysql_native_password")
 
-# CONEXAO AWS
+# CONEXAO AWSLINUX
 conexao = mysql.connector.connect(
     user='root', 
     password='urubu100', 
     host='44.212.3.214', 
     database='ConWay',
     auth_plugin="mysql_native_password")
+
+# CONEXÃO AWSAZURE
+SERVER= '18.232.10.25'
+DATABASE={'ConWay'}
+USERNAME={'sa'}
+PASSWORD={'urubu100'}
+
+connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
+conn = pyodbc.connect(connectionString)
 
 cursor = conexao.cursor()
 
