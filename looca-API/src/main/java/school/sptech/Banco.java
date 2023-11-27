@@ -6,8 +6,10 @@ import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
+import com.github.britooo.looca.api.group.temperatura.Temperatura;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class Banco {
 
             Processador processador = looca.getProcessador();
             Memoria memoria = looca.getMemoria();
+            Temperatura temperatura = new Temperatura();
+            Double valorTemperatura = temperatura.getTemperatura();
 
             contador += 1;
 
@@ -36,7 +40,11 @@ public class Banco {
             con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
                     (Math.ceil(memoria.getEmUso()/Math.pow(10,9))/Math.ceil(memoria.getTotal()/Math.pow(10,9)) * 100)
                     , dataHora, 2, 1);
-
+            
+            con.update("INSERT INTO TemperaturaRegistro (valor, dataHora) VALUES (?, ?)",
+                    new Object[]{valorTemperatura, dataHora},
+                    new int[]{Types.DOUBLE, Types.TIMESTAMP});
+        
             DiscoGrupo grupoDeDiscos = new DiscoGrupo();
             List<Disco> discos = grupoDeDiscos.getDiscos();
             List<Double> tamanhoDisco = new ArrayList<>();

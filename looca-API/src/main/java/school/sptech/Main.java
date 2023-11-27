@@ -8,11 +8,13 @@ import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.processos.Processo;
 import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
+import com.github.britooo.looca.api.group.temperatura.Temperatura;
 //import com.github.britooo.looca.api.group.servicos.Servico;
 import com.github.britooo.looca.api.group.servicos.ServicoGrupo;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ public class Main {
         Sistema sistema = looca.getSistema();
         Processador processador = looca.getProcessador();
         Memoria memoria = looca.getMemoria();
+        Temperatura temperatura = new Temperatura();
+        Double valorTemperatura = temperatura.getTemperatura();
         System.out.printf("""
                 ------------------------
                 Sistema operacional: %s
@@ -45,6 +49,9 @@ public class Main {
                 Total|  Em uso  | Disponível
                 %.2sGB |  %.4sGB  |    %.3sGB
                 ------------------------
+                ------------------------
+                Temperatura: %.2f °C
+                ------------------------
                 """,
                 sistema.getSistemaOperacional(),
                 sistema.getTempoDeAtividade()/86400,
@@ -54,7 +61,8 @@ public class Main {
                 processador.getNumeroCpusLogicas(),
                 memoria.getTotal()/Math.pow(10,9),
                 (memoria.getEmUso()/Math.pow(10,9))-1,
-                memoria.getDisponivel()/Math.pow(10,9)
+                memoria.getDisponivel()/Math.pow(10,9),
+                temperatura.getTemperatura()
         );
 
         con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
@@ -63,6 +71,10 @@ public class Main {
         con.update("INSERT INTO Registro (valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?)",
                 (Math.ceil(memoria.getEmUso()/Math.pow(10,9))/Math.ceil(memoria.getTotal()/Math.pow(10,9)) * 100)
                 , dataHora, 2, 1);
+
+        con.update("INSERT INTO TemperaturaRegistro (valor, dataHora) VALUES (?, ?)",
+                new Object[]{valorTemperatura, dataHora},
+                new int[]{Types.DOUBLE, Types.TIMESTAMP});
 
         // DiscoGrupo discoGrupo = looca.getGrupoDeDiscos();
         DiscoGrupo grupoDeDiscos = new DiscoGrupo();
