@@ -14,6 +14,7 @@ import java.util.TimerTask;
 public class Main {
 
     static int idTotem = 0;
+    static Totem totemSelecionado;
     static String urlJira;
     static String usuarioJira;
     static String tokenJira;
@@ -73,12 +74,12 @@ public class Main {
                 System.out.println("Memória: " + usoMemoria + "%");
                 System.out.println("Disco: " + usoDiscos + "%");
 
-                registroDAO.inserirRegistrosTotem(idTotem, usoCpu, usoMemoria, usoDiscos);
+                registroDAO.inserirRegistrosTotem(totemSelecionado.getIdTotem(), usoCpu, usoMemoria, usoDiscos);
                 
                 if (usoCpu >= metricaAtencaoCpu && usoCpu < metricaCriticoCpu){
 
                     System.out.println("CPU EM ATENÇÃO!!!");
-                    alertaDAO.inserirAlerta(alertaAtencao.getTipo(), alertaAtencao.getDescricao(), idTotem, 1);
+                    alertaDAO.inserirAlerta(alertaAtencao.getTipo(), alertaAtencao.getDescricao(), totemSelecionado.getIdTotem(), 1);
 
                     if (!alertaAtencaoCpuExibido){
 
@@ -92,7 +93,7 @@ public class Main {
                 } else if (usoCpu >= metricaCriticoCpu) {
 
                     System.out.println("CPU CRÍTICA!!!");
-                    alertaDAO.inserirAlerta(alertaCritico.getTipo(), alertaCritico.getDescricao(), idTotem, 1);
+                    alertaDAO.inserirAlerta(alertaCritico.getTipo(), alertaCritico.getDescricao(), totemSelecionado.getIdTotem(), 1);
 
                     if (!alertaCriticoCpuExibido){
 
@@ -109,7 +110,7 @@ public class Main {
                 if (usoMemoria >= metricaAtencaoMemoria && usoMemoria < metricaCriticoMemoria){
 
                     System.out.println("MEMÓRIA EM ATENÇÃO!!!");
-                    alertaDAO.inserirAlerta(alertaAtencao.getTipo(), alertaAtencao.getDescricao(), idTotem, 2);
+                    alertaDAO.inserirAlerta(alertaAtencao.getTipo(), alertaAtencao.getDescricao(), totemSelecionado.getIdTotem(), 2);
 
                     if (!alertaAtencaoMemoriaExibido){
 
@@ -123,7 +124,7 @@ public class Main {
                 } else if (usoMemoria >= metricaCriticoMemoria) {
 
                     System.out.println("MEMÓRIA CŔITICA!!!");
-                    alertaDAO.inserirAlerta(alertaCritico.getTipo(), alertaCritico.getDescricao(), idTotem, 2);
+                    alertaDAO.inserirAlerta(alertaCritico.getTipo(), alertaCritico.getDescricao(), totemSelecionado.getIdTotem(), 2);
 
                     if (!alertaCriticoMemoriaExibido){
 
@@ -228,9 +229,13 @@ public class Main {
 
                         idTotemSelecionado = scanNum.nextInt();
 
-                    } while (totemDAO.getTotemID(idTotemSelecionado, idEmpresa) == null);
+                        totemSelecionado = totemDAO.getTotemID(idTotemSelecionado, idEmpresa);
 
-                    idTotem = idTotemSelecionado;
+                    } while (totemSelecionado == null);
+
+                    /*idTotem = idTotemSelecionado;*/
+
+                    System.out.println(totemSelecionado.toString());
 
                     timer.schedule(getUsoComponentes, 0, 3000);
                     timer.schedule(resetarAlertas, 0, 60000);
