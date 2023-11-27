@@ -10,7 +10,6 @@ database='ConWay'
 username='sa'
 password='urubu100'
 
-# connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 connectionString = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 conn = pyodbc.connect(connectionString)
 
@@ -40,9 +39,9 @@ if (pyodbc.connect(connectionString)):
                 "INSERT INTO Registro (idRegistro,valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?, ?)",
                 (idRegistro, valor, dataHora, fkComponente, fkTotem)
             )
+            conn.commit()
 
         cursor.execute("SET IDENTITY_INSERT Registro OFF")
-
         conn.commit()
                         
     cursor.close()

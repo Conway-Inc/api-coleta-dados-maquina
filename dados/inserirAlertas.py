@@ -10,7 +10,6 @@ database='ConWay'
 username='sa'
 password='urubu100'
 
-# connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 connectionString = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 conn = pyodbc.connect(connectionString)
 
@@ -35,12 +34,12 @@ if (pyodbc.connect(connectionString)):
             idAlerta, tipo, descricao, fkRegistro = row
 
             cursor.execute(
-                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (?,?,?,?)",
-                (idAlerta, tipo, descricao, fkRegistro)
+                "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?,?,?)",
+                (tipo, descricao, fkRegistro)
             )
+            conn.commit()
 
         cursor.execute("SET IDENTITY_INSERT Alerta OFF")
-
         conn.commit()
             
     cursor.close()

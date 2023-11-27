@@ -42,10 +42,11 @@ if (pyodbc.connect(connectionString)):
                 "INSERT INTO Aeroporto (idAeroporto, nome, estado, municipio) VALUES (?, ?, ?, ?)",
                 idAeroporto, nome, estado, municipio
             )
+            conn.commit()
         
         cursor.execute("SET IDENTITY_INSERT Aeroporto OFF")
-
         conn.commit()
+
                          
     cursor.close()
     conn.close()
