@@ -1,20 +1,26 @@
 import csv
-import mysql.connector
+import pyodbc
 
 # CONEXAO LOCAL 
-conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+# conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 # CONEXAO AWS
-# conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
+SERVER= 'localhost'
+DATABASE='ConWay'
+USERNAME='sa'
+PASSWORD='urubu100'
 
-cursor = conexao.cursor()
+connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
+conn = pyodbc.connect(connectionString)
 
-bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/alertas.csv"
-kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/alertas.csv"
 
-if (conexao.is_connected()):
+cursor = conn.cursor()
+
+administrator = "C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/alertas.csv"
+
+if (conn.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    with open(("C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/alertas.csv")) as f:
+    with open(("C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/alertas.csv")) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
@@ -33,7 +39,7 @@ if (conexao.is_connected()):
                 "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (%s, %s, %s, %s)",
                 (idAlerta, tipo, descricao, fkRegistro)
             )
-            conexao.commit()
+            conn.commit()
             
     conexao.close()
 else:
