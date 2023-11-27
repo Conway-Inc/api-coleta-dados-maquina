@@ -1,46 +1,50 @@
 import csv
+import mysql.connector
 import pyodbc
 
 # CONEXAO LOCAL 
 # conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 # CONEXAO AWS
-SERVER= 'localhost'
-DATABASE='ConWay'
-USERNAME='sa'
-PASSWORD='urubu100'
+server= 'localhost'
+database='ConWay'
+username='sa'
+password='urubu100'
 
-connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
+# connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connectionString = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 conn = pyodbc.connect(connectionString)
-
 
 cursor = conn.cursor()
 
 administrator = "C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/alertas.csv"
+bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/alertas.csv"
 
-if (conn.is_connected()):
+if (pyodbc.connect(connectionString)):
     print("A Conexão ao MySql foi iniciada ")
-    with open(("C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/alertas.csv")) as f:
+
+    cursor.execute("SET IDENTITY_INSERT Alerta ON")
+
+    with open((bruno)) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
-        json = my_list
 
-        for row in json:
+        for row in my_list:
             print(row)
-            # Obter os dados do arquivo CSV
-            idAlerta = row[0]
-            tipo = row[1]
-            descricao = row[2]
-            fkRegistro = row[3]
 
-            # Inserir o registro no banco de dados
+            idAlerta, tipo, descricao, fkRegistro = row
+
             cursor.execute(
-                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (?,?,?,?)",
                 (idAlerta, tipo, descricao, fkRegistro)
             )
-            conn.commit()
+
+        cursor.execute("SET IDENTITY_INSERT Alerta OFF")
+
+        conn.commit()
             
-    conexao.close()
+    cursor.close()
+    conn.close()
 else:
     print("Houve erro ao conectar")

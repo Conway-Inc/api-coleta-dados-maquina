@@ -1,43 +1,52 @@
 import csv
 import mysql.connector
+import pyodbc
 
-
-# CONEXÃO LOCAL
-conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
+# CONEXAO LOCAL 
+# conexao = mysql.connector.connect(user='user_conway', password='urubu100', host='localhost', database='ConWay', auth_plugin = 'mysql_native_password')
 
 # CONEXAO AWS
-# conexao = mysql.connector.connect(user='root', password='urubu100', host='44.212.3.214', database='ConWay', auth_plugin = 'mysql_native_password')
+server= 'localhost'
+database='ConWay'
+username='sa'
+password='urubu100'
 
-cursor = conexao.cursor()
+# connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connectionString = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+conn = pyodbc.connect(connectionString)
 
+cursor = conn.cursor()
+
+administrator = "C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/registros.csv"
 bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/registros.csv"
 kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/registros.csv"
 bia = "C:/Projeto/api-coleta-dados-maquina/dados/registros.csv"
 
-if (conexao.is_connected()):
+if (pyodbc.connect(connectionString)):
     print("A Conexão ao MySql foi iniciada ")
-    with open(("C:/Projeto/api-coleta-dados-maquina/dados/registros.csv")) as f:
+
+    cursor.execute("SET IDENTITY_INSERT Registro ON")
+
+    with open((administrator)) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
-        json = my_list
 
-        for row in json:
+        for row in my_list:
             print(row)
-            # Obter os dados do arquivo CSV
-            idRegistro = row[0]
-            valor = row[1]
-            dataHora = row[2]
-            fkComponente = row[3]
-            fkTotem = row[4]
 
-            # Inserir o registro no banco de dados
+            idRegistro, valor, dataHora, fkComponente,fkTotem = row
+
             cursor.execute(
-                "INSERT INTO Registro (idRegistro,valor, dataHora, fkComponente, fkTotem) VALUES (%s,%s, %s, %s, %s)",
+                "INSERT INTO Registro (idRegistro,valor, dataHora, fkComponente, fkTotem) VALUES (?, ?, ?, ?, ?)",
                 (idRegistro, valor, dataHora, fkComponente, fkTotem)
             )
-            conexao.commit()
-            
-    conexao.close()
+
+        cursor.execute("SET IDENTITY_INSERT Registro OFF")
+
+        conn.commit()
+                        
+    cursor.close()
+    conn.close()
 else:
     print("Houve erro ao conectar")
