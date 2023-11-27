@@ -15,7 +15,6 @@ public class Cpu extends Componente{
         this.ghz = ghz;
     }
 
-    @Override
     public int getUso() {
         Looca looca = new Looca();
 

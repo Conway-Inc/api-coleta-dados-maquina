@@ -14,8 +14,6 @@ public abstract class Componente {
         this.unidadeMedida = unidadeMedida;
     }
 
-    public abstract int getUso();
-
     public int getId() {
         return id;
     }

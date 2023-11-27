@@ -21,15 +21,15 @@ public class RegistroDAO {
     }
 
 
-    public void inserirRegistrosTotem(int idTotem, int usoCpu, int usoMemoria, int usoDisco){
+    public void inserirRegistrosTotem(int idTotem, int usoCpu, int usoMemoria, int usoDisco, double temperatura){
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateFormat.format(currentDate);
 
-        String mySql = "CALL inserirDadosTotemID (?, 'Memória', ?, 'CPU', ?, 'Disco', ?, NOW());";
-        String sqlServer = "EXEC inserirDadosTotemID @idTotem = ?, @co1_nome = 'Memória', @re1_valor = ?, @co2_nome = 'CPU', @re2_valor = ?, @co3_nome = 'Disco', @re3_valor = ?, @re_data = '" + formattedDateTime + "';";
-        conMysql.update(mySql, idTotem, usoMemoria, usoCpu, usoDisco);
-        conSqlServer.update(sqlServer, idTotem, usoMemoria, usoCpu, usoDisco);
+        String mySql = "CALL inserirDadosTotemID (?, 'Memória', ?, 'CPU', ?, 'Disco', ?,'TemperaturaCpu', ?, NOW());";
+        String sqlServer = "EXEC inserirDadosTotemID @idTotem = ?, @co1_nome = 'Memória', @re1_valor = ?, @co2_nome = 'CPU', @re2_valor = ?, @co3_nome = 'Disco', @re3_valor = ?, @co4_nome = 'TemperaturaCpu' , @re3_valor = ?, @re_data = '" + formattedDateTime + "';";
+        conMysql.update(mySql, idTotem, usoMemoria, usoCpu, usoDisco, temperatura);
+        conSqlServer.update(sqlServer, idTotem, usoMemoria, usoCpu, usoDisco, temperatura);
     }
 
     public int getIdTotemUltimoRegistro(int fkTotem, int fkComponente){

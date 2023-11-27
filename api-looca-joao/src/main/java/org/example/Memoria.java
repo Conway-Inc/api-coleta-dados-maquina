@@ -12,7 +12,6 @@ public class Memoria extends Componente {
         super(id, nome, unidadeMedida);
     }
 
-    @Override
     public int getUso() {
 
         Looca looca = new Looca();

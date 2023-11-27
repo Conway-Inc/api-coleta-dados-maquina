@@ -46,6 +46,7 @@ public class Main {
         Cpu cpu = new Cpu();
         Memoria memoria = new Memoria();
         Disco disco = new Disco();
+        CpuTemperatura temperatura = new CpuTemperatura();
 
         RegistroDAO registroDAO = new RegistroDAO();
         AlertaDAO alertaDAO = new AlertaDAO();
@@ -67,13 +68,15 @@ public class Main {
                 int usoDiscos = disco.getUso();
                 int usoCpu = cpu.getUso();
                 int usoMemoria = memoria.getUso();
+                double registroTemperatura = temperatura.getTemperaturaCpu();
 
                 System.out.println("----------------------------------------------------------------");
                 System.out.println("CPU: " + usoCpu + "%");
                 System.out.println("Memória: " + usoMemoria + "%");
                 System.out.println("Disco: " + usoDiscos + "%");
+                System.out.println("Temperatura: " + registroTemperatura + "°C");
 
-                registroDAO.inserirRegistrosTotem(totemSelecionado.getIdTotem(), usoCpu, usoMemoria, usoDiscos);
+                registroDAO.inserirRegistrosTotem(totemSelecionado.getIdTotem(), usoCpu, usoMemoria, usoDiscos, registroTemperatura);
                 
                 if (usoCpu >= metricaAtencaoCpu && usoCpu < metricaCriticoCpu){
 
