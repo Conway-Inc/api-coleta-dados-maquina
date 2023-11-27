@@ -18,7 +18,7 @@ conn = pyodbc.connect(connectionString)
 
 cursor = conn.cursor()
 
-administrator = "C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/alertas.csv"
+administrator = "C:/Users/Administrator/Desktop/Projeto/api-coleta-dados-maquina/dados/airports.csv"
 bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/airports.csv"
 kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/airports.csv"
 bia = "C:/Projeto/api-coleta-dados-maquina/dados/airports.csv"

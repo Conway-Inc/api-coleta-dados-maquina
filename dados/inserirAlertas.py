@@ -34,8 +34,8 @@ if (pyodbc.connect(connectionString)):
             idAlerta, tipo, descricao, fkRegistro = row
 
             cursor.execute(
-                "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?,?,?)",
-                (tipo, descricao, fkRegistro)
+                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (?,?,?,?)",
+                (idAlerta,tipo, descricao, fkRegistro)
             )
             conn.commit()
 
