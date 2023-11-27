@@ -11,10 +11,11 @@ cursor = conexao.cursor()
 
 bruno = "C:/Users/bruno/Documents/ConWay/api-coleta-dados-maquina/dados/airports.csv"
 kauan = "D:/Faculdade/ConWay/api-coleta-dados-maquina/dados/airports.csv"
+bia = "C:/Projeto/api-coleta-dados-maquina/dados/airports.csv"
 
 if (conexao.is_connected()):
     print("A Conexão ao MySql foi iniciada ")
-    with open((bruno)) as f:
+    with open((bia)) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
