@@ -1,5 +1,4 @@
 import csv
-import mysql.connector
 import pyodbc
 
 # CONEXAO LOCAL 

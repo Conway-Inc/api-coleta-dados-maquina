@@ -1,5 +1,4 @@
 import csv
-import mysql.connector
 import pyodbc
 
 # CONEXAO LOCAL 
@@ -25,7 +24,7 @@ if (pyodbc.connect(connectionString)):
 
     cursor.execute("SET IDENTITY_INSERT Alerta ON")
 
-    with open((bruno)) as f:
+    with open((administrator)) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
