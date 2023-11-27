@@ -28,12 +28,12 @@ public class RegistroDAO {
 
         String mySql = "CALL inserirDadosTotemID (?, 'Memória', ?, 'CPU', ?, 'Disco', ?, NOW());";
         String sqlServer = "EXEC inserirDadosTotemID @idTotem = ?, @co1_nome = 'Memória', @re1_valor = ?, @co2_nome = 'CPU', @re2_valor = ?, @co3_nome = 'Disco', @re3_valor = ?, @re_data = '" + formattedDateTime + "';";
-        /*conMysql.update(sql, idTotem, usoMemoria, usoCpu, usoDisco);*/
+        conMysql.update(mySql, idTotem, usoMemoria, usoCpu, usoDisco);
         conSqlServer.update(sqlServer, idTotem, usoMemoria, usoCpu, usoDisco);
     }
 
     public int getIdTotemUltimoRegistro(int fkTotem, int fkComponente){
-        String mySql = "SELECT idRegistro FROM Registro WHERE fkTotem = " + fkTotem + " AND fkComponente = " + fkComponente +" ORDER BY dataHora DESC LIMIT 1";
+            /*String mySql = "SELECT idRegistro FROM Registro WHERE fkTotem = " + fkTotem + " AND fkComponente = " + fkComponente +" ORDER BY dataHora DESC LIMIT 1";*/
         String sqlServer = "SELECT TOP 1 idRegistro FROM Registro WHERE fkTotem = " + fkTotem + " AND fkComponente = " + fkComponente + " ORDER BY dataHora DESC;";
 
         /*List<Registro> idRegistro = conMysql.query(sql, new BeanPropertyRowMapper<>(Registro.class));*/

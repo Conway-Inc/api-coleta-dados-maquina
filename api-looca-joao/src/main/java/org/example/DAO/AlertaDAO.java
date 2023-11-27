@@ -17,10 +17,11 @@ public class AlertaDAO {
     public void inserirAlerta (int tipoAlerta, String descricao, int fkTotem, int fkComponente){
         RegistroDAO registroDAO = new RegistroDAO();
 
-        String sql = "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?, ?, ?);";
+        String sqlServer = "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?, ?, ?);";
+        String mySql = "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?, ?, (SELECT idRegistro FROM Registro WHERE fkTotem = " + fkTotem + " AND fkComponente = " + fkComponente + " ORDER BY dataHora DESC LIMIT 1));";
 
-        conSqlServer.update(sql, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));
-        /*conMysql.update(sql, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));*/
+        conSqlServer.update(sqlServer, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));
+        conMysql.update(mySql, tipoAlerta, descricao);
 
     }
 
