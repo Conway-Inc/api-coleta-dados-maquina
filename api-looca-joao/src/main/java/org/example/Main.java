@@ -13,7 +13,6 @@ import java.util.TimerTask;
 
 public class Main {
 
-    static int idTotem = 0;
     static Totem totemSelecionado;
     static String urlJira;
     static String usuarioJira;
@@ -83,7 +82,10 @@ public class Main {
 
                     if (!alertaAtencaoCpuExibido){
 
-                        Chamado chamado = new Chamado("CPU ATENÇÃO", "Ultrapassou métrica");
+                        String tituloChamado = String.format("%s - CPU EM ATENÇÃO", totemSelecionado.getNome());
+                        String descricaoChamado = String.format("O totem %s ultrapassou a métrica de %d%% de uso da CPU!", totemSelecionado.getNome(), metricaAtencaoCpu);
+
+                        Chamado chamado = new Chamado(tituloChamado, descricaoChamado);
 
                         chamado.abrirChamado(credencialJira);
 
@@ -92,12 +94,16 @@ public class Main {
 
                 } else if (usoCpu >= metricaCriticoCpu) {
 
+
                     System.out.println("CPU CRÍTICA!!!");
                     alertaDAO.inserirAlerta(alertaCritico.getTipo(), alertaCritico.getDescricao(), totemSelecionado.getIdTotem(), 1);
 
                     if (!alertaCriticoCpuExibido){
 
-                        Chamado chamado = new Chamado("CPU CŔITICO", "Ultrapassou métrica");
+                        String tituloChamado = String.format("%s - CPU CRÍTICO", totemSelecionado.getNome());
+                        String descricaoChamado = String.format("O totem %s ultrapassou a métrica de %d%% de uso da CPU!", totemSelecionado.getNome(), metricaAtencaoCpu);
+
+                        Chamado chamado = new Chamado(tituloChamado, descricaoChamado);
 
                         chamado.abrirChamado(credencialJira);
 
@@ -114,7 +120,10 @@ public class Main {
 
                     if (!alertaAtencaoMemoriaExibido){
 
-                        Chamado chamado = new Chamado("MEMÓRIA ATENÇÃO", "Ultrapassou métrica");
+                        String tituloChamado = String.format("%s - MEMÓRIA EM ATENÇÃO", totemSelecionado.getNome());
+                        String descricaoChamado = String.format("O totem %s ultrapassou a métrica de %d%% de uso da memória!", totemSelecionado.getNome(), metricaAtencaoCpu);
+
+                        Chamado chamado = new Chamado(tituloChamado, descricaoChamado);
 
                         chamado.abrirChamado(credencialJira);
 
@@ -128,7 +137,10 @@ public class Main {
 
                     if (!alertaCriticoMemoriaExibido){
 
-                        Chamado chamado = new Chamado("MEMÓRIA CRITICO", "Ultrapassou métrica");
+                        String tituloChamado = String.format("%s - MEMÓRIA CRÍTICO", totemSelecionado.getNome());
+                        String descricaoChamado = String.format("O totem %s ultrapassou a métrica de %d%% de uso da memória!", totemSelecionado.getNome(), metricaAtencaoCpu);
+
+                        Chamado chamado = new Chamado(tituloChamado, descricaoChamado);
 
                         chamado.abrirChamado(credencialJira);
 
@@ -233,7 +245,6 @@ public class Main {
 
                     } while (totemSelecionado == null);
 
-                    /*idTotem = idTotemSelecionado;*/
 
                     System.out.println(totemSelecionado.toString());
 
