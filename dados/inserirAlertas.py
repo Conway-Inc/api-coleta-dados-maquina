@@ -1,5 +1,4 @@
 import csv
-import mysql.connector
 import pyodbc
 
 # CONEXAO LOCAL 
@@ -11,7 +10,6 @@ database='ConWay'
 username='sa'
 password='urubu100'
 
-# connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 connectionString = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 conn = pyodbc.connect(connectionString)
 
@@ -25,7 +23,7 @@ if (pyodbc.connect(connectionString)):
 
     cursor.execute("SET IDENTITY_INSERT Alerta ON")
 
-    with open((bruno)) as f:
+    with open((administrator)) as f:
         file_content=f.read()
         cr = csv.reader(file_content.splitlines(), delimiter=';')
         my_list = list(cr)
@@ -36,12 +34,12 @@ if (pyodbc.connect(connectionString)):
             idAlerta, tipo, descricao, fkRegistro = row
 
             cursor.execute(
-                "INSERT INTO Alerta (idAlerta, tipo, descricao, fkRegistro) VALUES (?,?,?,?)",
-                (idAlerta, tipo, descricao, fkRegistro)
+                "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?,?,?)",
+                (tipo, descricao, fkRegistro)
             )
+            conn.commit()
 
         cursor.execute("SET IDENTITY_INSERT Alerta OFF")
-
         conn.commit()
             
     cursor.close()
