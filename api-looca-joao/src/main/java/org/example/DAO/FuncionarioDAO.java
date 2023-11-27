@@ -23,7 +23,7 @@ public class FuncionarioDAO {
 
         String sql = "SELECT * FROM Funcionario WHERE email = '" + email + "' AND senha = '" + senha + "'";
 
-        List<Funcionario> funcionario = conMysql.query(sql, new BeanPropertyRowMapper<>(Funcionario.class));
+        List<Funcionario> funcionario = conSqlServer.query(sql, new BeanPropertyRowMapper<>(Funcionario.class));
 
         if (funcionario.isEmpty()){
 

@@ -20,7 +20,7 @@ public class ComponenteDAO {
 
     public List<Componente> consultarComponentes(){
         String sql = "SELECT * FROM Componente";
-        List<Componente> componentes = conMysql.query(sql, new ComponenteRowMapper());
+        List<Componente> componentes = conSqlServer.query(sql, new ComponenteRowMapper());
         return componentes;
     }
 

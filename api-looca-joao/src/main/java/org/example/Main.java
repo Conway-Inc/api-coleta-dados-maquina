@@ -5,6 +5,8 @@ import org.example.DAO.*;
 import org.example.jira.Chamado;
 import org.example.jira.CredencialJira;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,10 +19,10 @@ public class Main {
     static String tokenJira;
     static String projectKeyJira;
 
-    static int metricaAtencaoCpu = 85;
+    static int metricaAtencaoCpu = 75;
     static int metricaCriticoCpu = 95;
 
-    static int metricaAtencaoMemoria = 85;
+    static int metricaAtencaoMemoria = 75;
     static int metricaCriticoMemoria = 95;
 
     static int metricaAtencaoDisco = 0;
