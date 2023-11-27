@@ -19,7 +19,9 @@ public class AlertaDAO {
 
         String sql = "INSERT INTO Alerta (tipo, descricao, fkRegistro) VALUES (?, ?, ?);";
 
-        conMysql.update(sql, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));
+        conSqlServer.update(sql, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));
+        /*conMysql.update(sql, tipoAlerta, descricao, registroDAO.getIdTotemUltimoRegistro(fkTotem, fkComponente));*/
+
     }
 
 }

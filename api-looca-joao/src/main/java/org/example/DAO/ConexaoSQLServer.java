@@ -2,16 +2,17 @@ package org.example.DAO;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 import java.sql.Connection;
 
 public class ConexaoSQLServer {
 
-    private static final String url = "jdbc:sqlserver://localhost:3306/ConWay";
-    private static final String user = "user_conway";
+    private static final String url = "jdbc:sqlserver://18.232.10.255:1433;databaseName=ConWay;encrypt=false;";
+    private static final String user = "sa";
     private static final String password = "urubu100";
 
-    private static final String nameDrive = "com.sqlserver.cj.jdbc.Driver";
+    private static final String nameDrive = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static Connection conexao;
 
     private JdbcTemplate conexaoBanco;

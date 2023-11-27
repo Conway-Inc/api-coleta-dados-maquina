@@ -22,7 +22,7 @@ public class TotemDAO {
 
         String sql = "SELECT * FROM Totem WHERE fkEmpresa = " + fkEmpresa;
 
-        List<Totem> totens = conMysql.query(sql, new BeanPropertyRowMapper<>(Totem.class));
+        List<Totem> totens = conSqlServer.query(sql, new BeanPropertyRowMapper<>(Totem.class));
 
         return totens.toString();
 
@@ -32,7 +32,7 @@ public class TotemDAO {
 
         String sql = "SELECT * FROM Totem WHERE idTotem = " + idTotem + " AND fkEmpresa = " + idEmpresa;
 
-        List<Totem> totem = conMysql.query(sql, new BeanPropertyRowMapper<>(Totem.class));
+        List<Totem> totem = conSqlServer.query(sql, new BeanPropertyRowMapper<>(Totem.class));
 
         if (totem.isEmpty()){
 
