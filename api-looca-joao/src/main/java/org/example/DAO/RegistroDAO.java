@@ -26,7 +26,7 @@ public class RegistroDAO {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateFormat.format(currentDate);
 
-        String mySql = "CALL inserirDadosTotemID (?, 'Memória', ?, 'CPU', ?, 'Disco', ?,'TemperaturaCpu', ?, NOW());";
+        String mySql = "CALL inserirDadosTotemID (?, 'Memória', ?, 'CPU', ?, 'Disco', ?,'TemperaturaCpu', ?, '" + formattedDateTime + "');";
         String sqlServer = "EXEC inserirDadosTotemID @idTotem = ?, @co1_nome = 'Memória', @re1_valor = ?, @co2_nome = 'CPU', @re2_valor = ?, @co3_nome = 'Disco', @re3_valor = ?, @co4_nome = 'TemperaturaCpu' , @re4_valor = ?, @re_data = '" + formattedDateTime + "';";
         conMysql.update(mySql, idTotem, usoMemoria, usoCpu, usoDisco, temperatura);
         conSqlServer.update(sqlServer, idTotem, usoMemoria, usoCpu, usoDisco, temperatura);
