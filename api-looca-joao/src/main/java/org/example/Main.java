@@ -20,10 +20,10 @@ public class Main {
     static String projectKeyJira;
 
     static int metricaAtencaoCpu = 75;
-    static int metricaCriticoCpu = 95;
+    static int metricaCriticoCpu = 90;
 
     static int metricaAtencaoMemoria = 75;
-    static int metricaCriticoMemoria = 95;
+    static int metricaCriticoMemoria = 90;
 
     static int metricaAtencaoDisco = 0;
     static int metricaCriticoDisco = 0;

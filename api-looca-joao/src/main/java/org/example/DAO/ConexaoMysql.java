@@ -7,8 +7,8 @@ import java.sql.Connection;
 
 public class ConexaoMysql {
 
-    private static final String url = "jdbc:mysql://localhost:3306/ConWay";
-    private static final String user = "user_conway";
+    private static final String url = "jdbc:mysql://172.17.0.2:3306/ConWay";
+    private static final String user = "root";
     private static final String password = "urubu100";
 
     private static final String nameDrive = "com.mysql.cj.jdbc.Driver";
