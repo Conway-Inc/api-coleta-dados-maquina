@@ -33,7 +33,7 @@ public class ProcessoDAO {
     public void inserirProcessos(List<Processo> processos){
         ProcessoDAO pdao = new ProcessoDAO();
 
-        String sql = "INSERT INTO Processo VALUES (NULL, ?, ?, ?)";
+        String sql = "INSERT INTO Processo (pid, nome, fkRegistro) VALUES (?, ?, ?)";
         for(Processo processoDaVez: processos){
             conSqlServer.update(sql, processoDaVez.getPid(), processoDaVez.getNome(), pdao.selectUltimoRegistro());
             conMysql.update(sql, processoDaVez.getPid(), processoDaVez.getNome(), pdao.selectUltimoRegistro());

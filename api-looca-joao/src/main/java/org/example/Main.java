@@ -179,11 +179,6 @@ public class Main {
                 Processo processo = new Processo();
 
                 processoDAO.inserirProcessos(processo.listarProcessos());
-                alertaAtencaoMemoriaExibido = false;
-                alertaCriticoMemoriaExibido = false;
-
-                alertaAtencaoDiscoExibido = false;
-                alertaCriticoDiscoExibido = false;
             }
         };
 
@@ -269,7 +264,7 @@ public class Main {
 
                     timer.schedule(getUsoComponentes, 0, 3000);
                     timer.schedule(resetarAlertas, 0, 60000);
-                    timer.schedule(getProcessosAtivos, 0, 5000);
+                    timer.schedule(getProcessosAtivos, 5000000, 500000);
 
                     opcaoMenu = scanNum.nextInt();
 
