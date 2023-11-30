@@ -197,12 +197,12 @@ public class Main {
         do {
 
             System.out.println("Digite seu email");
-            /*String emailLogin = scanStr.nextLine();*/
-            String emailLogin = "ana.carolina@latam.com";
+            String emailLogin = scanStr.nextLine();
+            /*String emailLogin = "ana.carolina@latam.com";*/
 
             System.out.println("Digite sua senha");
-            /*String senhaLogin = scanStr.nextLine();*/
-            String senhaLogin = "12345";
+            String senhaLogin = scanStr.nextLine();
+            /*String senhaLogin = "12345";*/
 
             FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
@@ -264,7 +264,7 @@ public class Main {
 
                     timer.schedule(getUsoComponentes, 0, 3000);
                     timer.schedule(resetarAlertas, 0, 60000);
-                    timer.schedule(getProcessosAtivos, 5000000, 500000);
+                    /*timer.schedule(getProcessosAtivos, 5000000, 500000);*/
 
                     opcaoMenu = scanNum.nextInt();
 
