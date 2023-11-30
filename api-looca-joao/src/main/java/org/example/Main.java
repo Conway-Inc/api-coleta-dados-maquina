@@ -172,12 +172,28 @@ public class Main {
             }
         };
 
+        TimerTask getProcessosAtivos = new TimerTask() {
+            @Override
+            public void run() {
+                ProcessoDAO processoDAO = new ProcessoDAO();
+                Processo processo = new Processo();
+
+                processoDAO.inserirProcessos(processo.listarProcessos());
+                alertaAtencaoMemoriaExibido = false;
+                alertaCriticoMemoriaExibido = false;
+
+                alertaAtencaoDiscoExibido = false;
+                alertaCriticoDiscoExibido = false;
+            }
+        };
+
+
         // MENU
 
         Scanner scanNum = new Scanner(System.in);
         Scanner scanStr = new Scanner(System.in);
 
-        Integer opcaoMenu = 0;
+        int opcaoMenu = 0;
 
         System.out.println("Seja bem vindo ao sistema de monitoramento AirWay!");
 
@@ -253,6 +269,7 @@ public class Main {
 
                     timer.schedule(getUsoComponentes, 0, 3000);
                     timer.schedule(resetarAlertas, 0, 60000);
+                    timer.schedule(getProcessosAtivos, 0, 5000);
 
                     opcaoMenu = scanNum.nextInt();
 
