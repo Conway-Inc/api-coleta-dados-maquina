@@ -5,8 +5,6 @@ import org.example.DAO.*;
 import org.example.jira.Chamado;
 import org.example.jira.CredencialJira;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -175,10 +173,11 @@ public class Main {
         TimerTask getProcessosAtivos = new TimerTask() {
             @Override
             public void run() {
-                ProcessoDAO processoDAO = new ProcessoDAO();
-                Processo processo = new Processo();
+                GrupoProcessoDAO processoDAO = new GrupoProcessoDAO();
+                GrupoProcesso processo = new GrupoProcesso();
 
-                processoDAO.inserirProcessos(processo.listarProcessos());
+                processoDAO.inserirProcessos(totemSelecionado.getIdTotem(), processo.getQuantidadeProcesso(),
+                        processo.getNomeProcessoMaisGastoCpu(), processo.getNomeProcessoMaisGastoMemoria());
             }
         };
 
