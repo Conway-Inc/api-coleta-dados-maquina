@@ -21,8 +21,8 @@ public class GrupoProcessoDAO {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateFormat.format(currentDate);
 
-        String sql = "INSERT INTO GrupoProcesso (quantidadeProcesso, dataHora, processoUsoCpu, processoUsoMemoria, fkTotem) VALUES (?, ?, ?, ?)";
-        String sqLServer = "INSERT INTO GrupoProcesso (quantidadeProcesso, dataHora, processoUsoCpu, processoUsoMemoria, fkTotem) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO GrupoProcesso (quantidadeProcesso, dataHora, processoUsoCpu, processoUsoMemoria, fkTotem) VALUES (?, ?, ?, ?, ?)";
+        String sqLServer = "INSERT INTO GrupoProcesso (quantidadeProcesso, dataHora, processoUsoCpu, processoUsoMemoria, fkTotem) VALUES (?, ?, ?, ?, ?)";
 
         conMysql.update(sql, quantidadeProcesso, formattedDateTime, processoUsoCpu, processoUsoMemoria, idTotem);
         conSqlServer.update(sqLServer, quantidadeProcesso, formattedDateTime, processoUsoCpu, processoUsoMemoria, idTotem);

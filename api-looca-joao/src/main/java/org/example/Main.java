@@ -175,7 +175,7 @@ public class Main {
             public void run() {
                 GrupoProcessoDAO processoDAO = new GrupoProcessoDAO();
                 GrupoProcesso processo = new GrupoProcesso();
-
+                System.out.println(processo.getQuantidadeProcesso());
                 processoDAO.inserirProcessos(totemSelecionado.getIdTotem(), processo.getQuantidadeProcesso(),
                         processo.getNomeProcessoMaisGastoCpu(), processo.getNomeProcessoMaisGastoMemoria());
             }
@@ -263,7 +263,7 @@ public class Main {
 
                     timer.schedule(getUsoComponentes, 0, 3000);
                     timer.schedule(resetarAlertas, 0, 60000);
-                    /*timer.schedule(getProcessosAtivos, 5000000, 500000);*/
+                    timer.schedule(getProcessosAtivos, 0, 5000);
 
                     opcaoMenu = scanNum.nextInt();
 
