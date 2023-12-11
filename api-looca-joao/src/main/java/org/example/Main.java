@@ -1,6 +1,7 @@
 package org.example;
 
 import com.github.britooo.looca.api.core.Looca;
+import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
 import org.example.DAO.*;
 import org.example.jira.Chamado;
 import org.example.jira.CredencialJira;
@@ -175,8 +176,10 @@ public class Main {
             public void run() {
                 GrupoProcessoDAO processoDAO = new GrupoProcessoDAO();
                 GrupoProcesso processo = new GrupoProcesso();
+                ProcessoGrupo processosGrupo = looca.getGrupoDeProcessos();
+
                 System.out.println(processo.getQuantidadeProcesso());
-                processoDAO.inserirProcessos(totemSelecionado.getIdTotem(), processo.getQuantidadeProcesso(),
+                processoDAO.inserirProcessos(totemSelecionado.getIdTotem(), processosGrupo.getTotalProcessos(),
                         processo.getNomeProcessoMaisGastoCpu(), processo.getNomeProcessoMaisGastoMemoria());
             }
         };
